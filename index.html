@@ -6,10 +6,10 @@
 <title>مجمع الشارقة الطبي</title>
 <style>
   :root{
-    --primary:#0a3d62;
-    --primary-light:#1e5f8a;
-    --accent:#3ec1d3;
-    --bg:#eef2f5;
+    --primary:#4e8a1f;
+    --primary-light:#7cb342;
+    --accent:#d12f2f;
+    --bg:#f1f5ec;
     --card:#ffffff;
     --text:#1f2d3d;
     --muted:#6b7a8d;
@@ -26,14 +26,16 @@
 
   /* الترويسة */
   .hero{
-    background:linear-gradient(135deg,var(--primary),var(--primary-light));
-    color:#fff;padding:46px 24px 34px;text-align:center;position:relative;
+    background:linear-gradient(135deg,#4e8a1f,#7cb342);
+    color:#fff;padding:40px 24px 30px;text-align:center;position:relative;
   }
   .hero .logo{
-    width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.15);
+    width:132px;height:132px;border-radius:50%;background:#fff;
     display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
-    font-size:38px;border:2px solid rgba(255,255,255,.4)
+    overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.18);
+    border:4px solid rgba(255,255,255,.65)
   }
+  .hero .logo img{width:100%;height:100%;object-fit:contain;padding:6px}
   .hero h1{font-size:26px;margin-bottom:6px}
   .hero p{font-size:14px;opacity:.85;letter-spacing:1px}
 
@@ -90,7 +92,7 @@
 <body>
   <div class="wrap">
     <header class="hero">
-      <div class="logo">🏥</div>
+      <div class="logo"><img src="logo.png" alt="شعار مجمع الشارقة الطبي"></div>
       <h1 id="name">مجمع الشارقة الطبي</h1>
       <p id="name-en">SHARJAH MEDICAL COMPLEX</p>
     </header>
