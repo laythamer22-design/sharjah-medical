@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مجمع الشارقة الطبي</title>
+<style>
+  :root{
+    --primary:#0a3d62;
+    --primary-light:#1e5f8a;
+    --accent:#3ec1d3;
+    --bg:#eef2f5;
+    --card:#ffffff;
+    --text:#1f2d3d;
+    --muted:#6b7a8d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Segoe UI","Tahoma",sans-serif;
+    background:var(--bg);color:var(--text);
+    min-height:100vh;display:flex;justify-content:center;
+    padding:0 0 40px;
+  }
+  .wrap{width:100%;max-width:480px;background:var(--card);
+    min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.08)}
+
+  /* الترويسة */
+  .hero{
+    background:linear-gradient(135deg,var(--primary),var(--primary-light));
+    color:#fff;padding:46px 24px 34px;text-align:center;position:relative;
+  }
+  .hero .logo{
+    width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.15);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 16px;
+    font-size:38px;border:2px solid rgba(255,255,255,.4)
+  }
+  .hero h1{font-size:26px;margin-bottom:6px}
+  .hero p{font-size:14px;opacity:.85;letter-spacing:1px}
+
+  .content{padding:22px 20px}
+
+  /* البطاقات */
+  .card{
+    background:#fff;border:1px solid #e6ecf1;border-radius:14px;
+    padding:18px;margin-bottom:16px;
+    box-shadow:0 4px 14px rgba(10,61,98,.05)
+  }
+  .card .title{
+    display:flex;align-items:center;gap:10px;
+    font-size:15px;font-weight:700;color:var(--primary);margin-bottom:12px
+  }
+  .card .icon{font-size:20px}
+  .row{display:flex;align-items:center;gap:10px;
+    padding:10px 0;border-top:1px solid #f0f3f6}
+  .row:first-of-type{border-top:none}
+  .row a{color:var(--text);text-decoration:none;font-size:15px}
+  .row .lbl{color:var(--muted);font-size:13px;min-width:62px}
+
+  .address{font-size:15px;line-height:1.7;color:var(--text)}
+
+  /* أزرار الخرائط */
+  .maps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px}
+  .btn{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    padding:16px 10px;border-radius:14px;text-decoration:none;color:#fff;
+    font-size:14px;font-weight:600;transition:transform .15s
+  }
+  .btn:active{transform:scale(.96)}
+  .btn .bi{font-size:26px}
+  .btn.gmaps{background:#1a73e8}
+  .btn.waze{background:#33ccff}
+
+  .call-btn{
+    display:block;text-align:center;background:var(--accent);color:#fff;
+    padding:15px;border-radius:14px;text-decoration:none;font-weight:700;
+    font-size:16px;margin-top:6px
+  }
+  .footer{text-align:center;color:var(--muted);font-size:12px;padding:18px}
+
+  /* التواصل الاجتماعي */
+  .social{display:flex;gap:18px;justify-content:center;padding-top:6px}
+  .soc{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;transition:transform .15s}
+  .soc:active{transform:scale(.92)}
+  .soc svg{width:30px;height:30px;fill:#fff}
+  .soc.fb{background:#1877f2}
+  .soc.ig{background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="logo">🏥</div>
+      <h1 id="name">مجمع الشارقة الطبي</h1>
+      <p id="name-en">SHARJAH MEDICAL COMPLEX</p>
+    </header>
+
+    <main class="content">
+      <!-- العنوان -->
+      <section class="card">
+        <div class="title"><span class="icon">📍</span> موقع المجمع</div>
+        <div class="address" id="address">
+          الشارقة، الإمارات العربية المتحدة
+        </div>
+      </section>
+
+      <!-- أرقام التواصل -->
+      <section class="card">
+        <div class="title"><span class="icon">📞</span> أرقام التواصل</div>
+        <div id="contacts"></div>
+        <a class="call-btn" id="main-call" href="#">اتصل الآن</a>
+      </section>
+
+      <!-- الخرائط -->
+      <section class="card">
+        <div class="title"><span class="icon">🗺️</span> الوصول إلى المجمع</div>
+        <div class="maps">
+          <a class="btn gmaps" id="gmaps" href="#" target="_blank" rel="noopener">
+            <span class="bi">📌</span> Google Maps
+          </a>
+          <a class="btn waze" id="waze" href="#" target="_blank" rel="noopener">
+            <span class="bi">🚗</span> Waze
+          </a>
+        </div>
+      </section>
+
+      <!-- التواصل الاجتماعي -->
+      <section class="card">
+        <div class="title"><span class="icon">🌐</span> تابعنا على مواقع التواصل</div>
+        <div class="social">
+          <a class="soc fb" id="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+          </a>
+          <a class="soc ig" id="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zm0 1.95c-3.15 0-3.52.01-4.76.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.17.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.05 1.15.24 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.17 1.04.36 2.19.41 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c1.15-.05 1.77-.24 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.17-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.05-1.15-.24-1.77-.41-2.19-.21-.55-.47-.94-.88-1.35-.41-.41-.8-.67-1.35-.88-.42-.17-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.76-.07zm0 3.32A4.57 4.57 0 1 0 16.57 12 4.58 4.58 0 0 0 12 7.43zm0 7.54A2.97 2.97 0 1 1 14.97 12 2.97 2.97 0 0 1 12 14.97zm5.81-7.74a1.07 1.07 0 1 1-1.07-1.07 1.07 1.07 0 0 1 1.07 1.07z"/></svg>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <div class="footer">© <span id="year"></span> مجمع الشارقة الطبي</div>
+  </div>
+
+<script>
+/* ============================================================
+   ⬇️  عدّل البيانات هنا فقط (ضع القيم الحقيقية للمجمع)
+   ============================================================ */
+const CONFIG = {
+  nameAr: "مجمع الشارقة الطبي",
+  nameEn: "SHARJAH MEDICAL COMPLEX",
+
+  // العنوان النصي
+  address: "الفلوجة - الشارع العام - قرب مستشفى الفلوجة التعليمي، الأنبار، العراق",
+
+  // أرقام التواصل: اكتب الرقم بالصيغة الدولية بدون رموز للروابط
+  contacts: [
+    { label: "هاتف", display: "+964 750 967 5498", tel: "+9647509675498" },
+    { label: "هاتف", display: "+964 786 036 3652", tel: "+9647860363652" },
+  ],
+
+  // روابط التواصل الاجتماعي (اترك الحقل فارغاً لإخفاء الرابط)
+  facebook: "https://www.facebook.com/share/1Dtq1XGA2s/?mibextid=wwXIfr",
+  instagram: "",
+
+  // نص البحث في الخرائط (يُستخدم للعثور على المجمع بالاسم والموقع)
+  mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
+
+  // إحداثيات دقيقة (اختياري): ضعها إن توفرت، وإلا اتركها null ليُستخدم البحث بالاسم
+  lat: 33.353694,
+  lng: 43.794750,
+};
+/* ============================================================ */
+
+document.getElementById("name").textContent = CONFIG.nameAr;
+document.getElementById("name-en").textContent = CONFIG.nameEn;
+document.getElementById("address").textContent = CONFIG.address;
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// أرقام التواصل
+const cWrap = document.getElementById("contacts");
+CONFIG.contacts.forEach((c, i) => {
+  const href = c.whatsapp
+    ? "https://wa.me/" + c.tel.replace(/[^0-9]/g, "")
+    : "tel:" + c.tel;
+  const row = document.createElement("div");
+  row.className = "row";
+  row.innerHTML = '<span class="lbl">' + c.label + '</span>' +
+                  '<a href="' + href + '" dir="ltr">' + c.display + '</a>';
+  cWrap.appendChild(row);
+  if (i === 0) document.getElementById("main-call").href = "tel:" + c.tel;
+});
+
+// روابط الخرائط: استخدم الإحداثيات إن توفرت، وإلا ابحث بالاسم والموقع
+const hasCoords = (CONFIG.lat != null && CONFIG.lng != null);
+if (hasCoords) {
+  document.getElementById("gmaps").href =
+    "https://www.google.com/maps/search/?api=1&query=" + CONFIG.lat + "," + CONFIG.lng;
+  document.getElementById("waze").href =
+    "https://waze.com/ul?ll=" + CONFIG.lat + "," + CONFIG.lng + "&navigate=yes";
+} else {
+  const q = encodeURIComponent(CONFIG.mapQuery);
+  document.getElementById("gmaps").href =
+    "https://www.google.com/maps/search/?api=1&query=" + q;
+  document.getElementById("waze").href =
+    "https://waze.com/ul?q=" + q + "&navigate=yes";
+}
+
+// روابط التواصل الاجتماعي
+const fb = document.getElementById("facebook");
+const ig = document.getElementById("instagram");
+if (CONFIG.facebook) { fb.href = CONFIG.facebook; } else { fb.style.display = "none"; }
+if (CONFIG.instagram) { ig.href = CONFIG.instagram; }
+</script>
+</body>
+</html>
