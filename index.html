@@ -87,6 +87,44 @@
   .soc svg{width:30px;height:30px;fill:#fff}
   .soc.fb{background:#1877f2}
   .soc.ig{background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5)}
+
+  /* الأطباء */
+  .docs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
+  .doc{cursor:pointer;text-align:center;background:#fff;border:1px solid #e6ecf1;
+    border-radius:14px;padding:14px 8px;transition:transform .15s,box-shadow .15s}
+  .doc:active{transform:scale(.96)}
+  .doc:hover{box-shadow:0 6px 16px rgba(78,138,31,.15)}
+  .doc .ph{width:88px;height:88px;border-radius:50%;object-fit:cover;
+    margin:0 auto 8px;background:#eef3e6;display:block;border:3px solid var(--primary-light)}
+  .doc .dn{font-weight:700;font-size:14px;color:var(--text)}
+  .doc .ds{font-size:12px;color:var(--muted);margin-top:2px}
+
+  /* نافذة الطبيب */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
+    align-items:center;justify-content:center;padding:18px;z-index:50}
+  .modal.open{display:flex}
+  .modal-box{background:#fff;border-radius:18px;max-width:400px;width:100%;
+    max-height:90vh;overflow:auto;position:relative;animation:pop .2s ease}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .modal-head{background:linear-gradient(135deg,#4e8a1f,#7cb342);color:#fff;
+    padding:26px 20px 20px;text-align:center;border-radius:18px 18px 0 0}
+  .modal-head .ph{width:108px;height:108px;border-radius:50%;object-fit:cover;
+    border:4px solid #fff;background:#eef3e6;margin:0 auto 10px;display:block}
+  .modal-head h3{font-size:19px}
+  .modal-head p{opacity:.92;font-size:13px;margin-top:4px}
+  .modal-body{padding:18px 20px}
+  .msec{margin-bottom:16px}
+  .msec:last-child{margin-bottom:0}
+  .msec h4{color:var(--primary);font-size:14px;margin-bottom:8px;
+    display:flex;align-items:center;gap:8px}
+  .msec .item{padding:8px 0;border-top:1px solid #f0f3f6;font-size:14px;color:var(--text)}
+  .msec .item:first-child{border-top:none}
+  .book{display:block;text-align:center;background:var(--accent);color:#fff;
+    padding:12px;border-radius:12px;text-decoration:none;font-weight:700;
+    margin-top:8px;font-size:15px}
+  .close-x{position:absolute;top:10px;left:12px;background:rgba(255,255,255,.25);
+    color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:22px;
+    cursor:pointer;line-height:1}
 </style>
 </head>
 <body>
@@ -111,6 +149,12 @@
         <div class="title"><span class="icon">📞</span> أرقام التواصل</div>
         <div id="contacts"></div>
         <a class="call-btn" id="main-call" href="#">اتصل الآن</a>
+      </section>
+
+      <!-- الأطباء -->
+      <section class="card">
+        <div class="title"><span class="icon">👨‍⚕️</span> أطباء المجمع</div>
+        <div class="docs" id="docs"></div>
       </section>
 
       <!-- الخرائط -->
@@ -143,6 +187,28 @@
     <div class="footer">© <span id="year"></span> مجمع الشارقة الطبي</div>
   </div>
 
+  <!-- نافذة بروفايل الطبيب -->
+  <div class="modal" id="docModal">
+    <div class="modal-box">
+      <button class="close-x" id="docClose" aria-label="إغلاق">&times;</button>
+      <div class="modal-head">
+        <img class="ph" id="mPhoto" alt="">
+        <h3 id="mName"></h3>
+        <p id="mSpec"></p>
+      </div>
+      <div class="modal-body">
+        <div class="msec">
+          <h4><span>🕐</span> أوقات الدوام</h4>
+          <div id="mHours"></div>
+        </div>
+        <div class="msec">
+          <h4><span>📅</span> أرقام الحجز</h4>
+          <div id="mBooking"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
 /* ============================================================
    ⬇️  عدّل البيانات هنا فقط (ضع القيم الحقيقية للمجمع)
@@ -163,6 +229,24 @@ const CONFIG = {
   // روابط التواصل الاجتماعي (اترك الحقل فارغاً لإخفاء الرابط)
   facebook: "https://www.facebook.com/share/1Dtq1XGA2s/?mibextid=wwXIfr",
   instagram: "",
+
+  // أطباء المجمع: أضف طبيباً بنسخ الكتلة. photo: مسار صورة الطبيب (اتركه فارغاً لصورة افتراضية)
+  doctors: [
+    {
+      name: "د. اسم الطبيب الأول",
+      specialty: "طب عام",
+      photo: "",
+      hours: ["السبت - الخميس: 9:00 ص - 2:00 م", "الجمعة: عطلة"],
+      booking: ["+9647509675498"],
+    },
+    {
+      name: "د. اسم الطبيب الثاني",
+      specialty: "طب الأطفال",
+      photo: "",
+      hours: ["السبت - الأربعاء: 4:00 م - 9:00 م"],
+      booking: ["+9647860363652"],
+    },
+  ],
 
   // نص البحث في الخرائط (يُستخدم للعثور على المجمع بالاسم والموقع)
   mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
@@ -212,6 +296,58 @@ const fb = document.getElementById("facebook");
 const ig = document.getElementById("instagram");
 if (CONFIG.facebook) { fb.href = CONFIG.facebook; } else { fb.style.display = "none"; }
 if (CONFIG.instagram) { ig.href = CONFIG.instagram; }
+
+// بوابة الأطباء
+const AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+  '<rect width="100" height="100" fill="#eef3e6"/>' +
+  '<circle cx="50" cy="40" r="18" fill="#7cb342"/>' +
+  '<path d="M20 90c0-18 13-27 30-27s30 9 30 27z" fill="#7cb342"/></svg>');
+
+const docsWrap = document.getElementById("docs");
+const modal = document.getElementById("docModal");
+
+(CONFIG.doctors || []).forEach((doc, idx) => {
+  const el = document.createElement("div");
+  el.className = "doc";
+  el.innerHTML =
+    '<img class="ph" src="' + (doc.photo || AVATAR) + '" alt="' + doc.name + '">' +
+    '<div class="dn">' + doc.name + '</div>' +
+    '<div class="ds">' + doc.specialty + '</div>';
+  el.addEventListener("click", () => openDoc(idx));
+  docsWrap.appendChild(el);
+});
+
+function openDoc(i) {
+  const d = CONFIG.doctors[i];
+  document.getElementById("mPhoto").src = d.photo || AVATAR;
+  document.getElementById("mName").textContent = d.name;
+  document.getElementById("mSpec").textContent = d.specialty;
+
+  const h = document.getElementById("mHours");
+  h.innerHTML = "";
+  (d.hours || []).forEach(x => {
+    const r = document.createElement("div");
+    r.className = "item";
+    r.textContent = x;
+    h.appendChild(r);
+  });
+
+  const b = document.getElementById("mBooking");
+  b.innerHTML = "";
+  (d.booking || []).forEach(num => {
+    const a = document.createElement("a");
+    a.className = "book";
+    a.href = "tel:" + num.replace(/[^0-9+]/g, "");
+    a.textContent = "احجز الآن: " + num;
+    b.appendChild(a);
+  });
+
+  modal.classList.add("open");
+}
+
+document.getElementById("docClose").addEventListener("click", () => modal.classList.remove("open"));
+modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
 </script>
 </body>
 </html>
