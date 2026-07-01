@@ -119,6 +119,8 @@
     display:flex;align-items:center;gap:8px}
   .msec .item{padding:8px 0;border-top:1px solid #f0f3f6;font-size:14px;color:var(--text)}
   .msec .item:first-child{border-top:none}
+  .bio{font-size:14px;line-height:1.8;color:var(--text);
+    background:#f7faf2;border:1px solid #e6efd8;border-radius:10px;padding:12px}
   .book{display:block;text-align:center;background:var(--accent);color:#fff;
     padding:12px;border-radius:12px;text-decoration:none;font-weight:700;
     margin-top:8px;font-size:15px}
@@ -197,6 +199,10 @@
         <p id="mSpec"></p>
       </div>
       <div class="modal-body">
+        <div class="msec" id="mBioSec">
+          <h4><span>📝</span> نبذة عن الطبيب</h4>
+          <p class="bio" id="mBio"></p>
+        </div>
         <div class="msec">
           <h4><span>🕐</span> أوقات الدوام</h4>
           <div id="mHours"></div>
@@ -236,6 +242,7 @@ const CONFIG = {
       name: "د. اسم الطبيب الأول",
       specialty: "طب عام",
       photo: "",
+      bio: "نبذة تعريفية عن الطبيب: الشهادات والخبرات والاختصاص الدقيق (تُكتب هنا).",
       hours: ["السبت - الخميس: 9:00 ص - 2:00 م", "الجمعة: عطلة"],
       booking: ["+9647509675498"],
     },
@@ -243,6 +250,7 @@ const CONFIG = {
       name: "د. اسم الطبيب الثاني",
       specialty: "طب الأطفال",
       photo: "",
+      bio: "نبذة تعريفية عن الطبيب: الشهادات والخبرات والاختصاص الدقيق (تُكتب هنا).",
       hours: ["السبت - الأربعاء: 4:00 م - 9:00 م"],
       booking: ["+9647860363652"],
     },
@@ -323,6 +331,14 @@ function openDoc(i) {
   document.getElementById("mPhoto").src = d.photo || AVATAR;
   document.getElementById("mName").textContent = d.name;
   document.getElementById("mSpec").textContent = d.specialty;
+
+  const bioSec = document.getElementById("mBioSec");
+  if (d.bio) {
+    document.getElementById("mBio").textContent = d.bio;
+    bioSec.style.display = "";
+  } else {
+    bioSec.style.display = "none";
+  }
 
   const h = document.getElementById("mHours");
   h.innerHTML = "";
