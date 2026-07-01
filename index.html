@@ -99,6 +99,23 @@
   .doc .dn{font-weight:700;font-size:14px;color:var(--text)}
   .doc .ds{font-size:12px;color:var(--muted);margin-top:2px}
 
+  /* العروض */
+  .offers{display:grid;gap:14px;margin-top:6px}
+  .offer{position:relative;overflow:hidden;border-radius:16px;
+    background:linear-gradient(135deg,#f7faf2,#eef6e2);
+    border:1px solid #e2eecd;padding:16px 16px 16px 18px}
+  .offer .badge{position:absolute;top:0;left:0;background:var(--accent);color:#fff;
+    font-size:12px;font-weight:700;padding:6px 14px;border-radius:0 0 12px 0}
+  .offer .oh{font-size:16px;font-weight:800;color:var(--primary);margin:6px 0 6px;
+    padding-inline-start:2px}
+  .offer .od{font-size:13.5px;line-height:1.8;color:var(--text);white-space:pre-line}
+  .offer .price{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+  .offer .price .new{font-size:22px;font-weight:800;color:var(--accent)}
+  .offer .price .old{font-size:15px;color:var(--muted);text-decoration:line-through}
+  .offer .valid{display:inline-block;margin-top:10px;font-size:12px;color:var(--muted)}
+  .offer .obook{display:inline-block;margin-top:12px;background:var(--primary);color:#fff;
+    padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px}
+
   /* نافذة الطبيب */
   .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
     align-items:center;justify-content:center;padding:18px;z-index:50}
@@ -157,6 +174,12 @@
       <section class="card">
         <div class="title"><span class="icon">👨‍⚕️</span> أطباء المجمع</div>
         <div class="docs" id="docs"></div>
+      </section>
+
+      <!-- العروض -->
+      <section class="card" id="offersCard">
+        <div class="title"><span class="icon">🎁</span> عروض المجمع</div>
+        <div class="offers" id="offers"></div>
       </section>
 
       <!-- الخرائط -->
@@ -287,6 +310,21 @@ const CONFIG = {
     },
   ],
 
+  // عروض المجمع: أضف عرضاً بنسخ الكتلة. اترك المصفوفة فارغة [] لإخفاء القسم بالكامل
+  // الحقول: badge شارة، title العنوان، desc الوصف، priceNew السعر الجديد، priceOld السعر القديم،
+  //         valid مدة السريان، book رقم الحجز (اتركه فارغاً لإخفاء زر الحجز). كل الحقول اختيارية عدا العنوان.
+  offers: [
+    {
+      badge: "عرض خاص",
+      title: "عرض مثال — استبدله بعرضك",
+      desc: "اكتب هنا تفاصيل العرض الذي يقدمه المجمع.\n• النقطة الأولى\n• النقطة الثانية",
+      priceNew: "",
+      priceOld: "",
+      valid: "ساري حتى نهاية الشهر",
+      book: "+9647869485161",
+    },
+  ],
+
   // نص البحث في الخرائط (يُستخدم للعثور على المجمع بالاسم والموقع)
   mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
 
@@ -335,6 +373,30 @@ const fb = document.getElementById("facebook");
 const ig = document.getElementById("instagram");
 if (CONFIG.facebook) { fb.href = CONFIG.facebook; } else { fb.style.display = "none"; }
 if (CONFIG.instagram) { ig.href = CONFIG.instagram; }
+
+// عروض المجمع
+const offersWrap = document.getElementById("offers");
+const offersCard = document.getElementById("offersCard");
+if (CONFIG.offers && CONFIG.offers.length) {
+  CONFIG.offers.forEach(o => {
+    const el = document.createElement("div");
+    el.className = "offer";
+    let html = "";
+    if (o.badge) html += '<span class="badge">' + o.badge + '</span>';
+    html += '<div class="oh">' + (o.title || "") + '</div>';
+    if (o.desc) html += '<div class="od">' + o.desc + '</div>';
+    if (o.priceNew) {
+      html += '<div class="price"><span class="new">' + o.priceNew + '</span>' +
+              (o.priceOld ? '<span class="old">' + o.priceOld + '</span>' : '') + '</div>';
+    }
+    if (o.valid) html += '<span class="valid">⏳ ' + o.valid + '</span><br>';
+    if (o.book) html += '<a class="obook" href="tel:' + o.book.replace(/[^0-9+]/g, "") + '">احجز العرض</a>';
+    el.innerHTML = html;
+    offersWrap.appendChild(el);
+  });
+} else {
+  offersCard.style.display = "none";
+}
 
 // بوابة الأطباء
 const AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(
