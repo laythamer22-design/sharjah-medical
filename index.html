@@ -119,7 +119,7 @@
     display:flex;align-items:center;gap:8px}
   .msec .item{padding:8px 0;border-top:1px solid #f0f3f6;font-size:14px;color:var(--text)}
   .msec .item:first-child{border-top:none}
-  .bio{font-size:14px;line-height:1.8;color:var(--text);
+  .bio{font-size:14px;line-height:1.9;color:var(--text);white-space:pre-line;
     background:#f7faf2;border:1px solid #e6efd8;border-radius:10px;padding:12px}
   .book{display:block;text-align:center;background:var(--accent);color:#fff;
     padding:12px;border-radius:12px;text-decoration:none;font-weight:700;
@@ -203,7 +203,7 @@
           <h4><span>📝</span> نبذة عن الطبيب</h4>
           <p class="bio" id="mBio"></p>
         </div>
-        <div class="msec">
+        <div class="msec" id="mHoursSec">
           <h4><span>🕐</span> أوقات الدوام</h4>
           <div id="mHours"></div>
         </div>
@@ -239,20 +239,12 @@ const CONFIG = {
   // أطباء المجمع: أضف طبيباً بنسخ الكتلة. photo: مسار صورة الطبيب (اتركه فارغاً لصورة افتراضية)
   doctors: [
     {
-      name: "د. اسم الطبيب الأول",
-      specialty: "طب عام",
+      name: "د. ندى عبد الله الحسن",
+      specialty: "أخصائية أمراض المفاصل والفقرات والروماتيزم",
       photo: "",
-      bio: "نبذة تعريفية عن الطبيب: الشهادات والخبرات والاختصاص الدقيق (تُكتب هنا).",
-      hours: ["السبت - الخميس: 9:00 ص - 2:00 م", "الجمعة: عطلة"],
-      booking: ["+9647509675498"],
-    },
-    {
-      name: "د. اسم الطبيب الثاني",
-      specialty: "طب الأطفال",
-      photo: "",
-      bio: "نبذة تعريفية عن الطبيب: الشهادات والخبرات والاختصاص الدقيق (تُكتب هنا).",
-      hours: ["السبت - الأربعاء: 4:00 م - 9:00 م"],
-      booking: ["+9647860363652"],
+      bio: "أخصائية في تأهيل أمراض المفاصل والفقرات، والإصابات الرياضية وعلاج الأمراض المفصلية، والأنسجة الرابطة وهشاشة العظام، وعلاج الخشونة (السوفان) والانزلاق الغضروفي.\n\nالشهادات:\n• شهادة البكالوريوس في الطب والجراحة العامة\n• شهادة الدبلوم العالي (جامعة بغداد) في أمراض المفاصل والفقرات والروماتيزم\n• M.B.Ch.B — H.D.M.R",
+      hours: [],
+      booking: ["+9647822854782", "+9647765748904", "+9647511166300"],
     },
   ],
 
@@ -348,6 +340,8 @@ function openDoc(i) {
     r.textContent = x;
     h.appendChild(r);
   });
+  document.getElementById("mHoursSec").style.display =
+    (d.hours && d.hours.length) ? "" : "none";
 
   const b = document.getElementById("mBooking");
   b.innerHTML = "";
