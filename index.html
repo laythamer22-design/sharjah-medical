@@ -342,17 +342,7 @@ const CONFIG = {
   // عروض المجمع: أضف عرضاً بنسخ الكتلة. اترك المصفوفة فارغة [] لإخفاء القسم بالكامل
   // الحقول: badge شارة، title العنوان، desc الوصف، priceNew السعر الجديد، priceOld السعر القديم،
   //         valid مدة السريان، book رقم الحجز (اتركه فارغاً لإخفاء زر الحجز). كل الحقول اختيارية عدا العنوان.
-  offers: [
-    {
-      badge: "عرض خاص",
-      title: "عرض مثال — استبدله بعرضك",
-      desc: "اكتب هنا تفاصيل العرض الذي يقدمه المجمع.\n• النقطة الأولى\n• النقطة الثانية",
-      priceNew: "",
-      priceOld: "",
-      valid: "ساري حتى نهاية الشهر",
-      book: "+9647869485161",
-    },
-  ],
+  offers: [],
 
   // نص البحث في الخرائط (يُستخدم للعثور على المجمع بالاسم والموقع)
   mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
@@ -435,9 +425,9 @@ if (CONFIG.offers && CONFIG.offers.length) {
     offersWrap.appendChild(el);
   });
 } else {
-  offersCard.style.display = "none";
-  const offTab = document.querySelector('.tab[data-panel="offers"]');
-  if (offTab) offTab.style.display = "none";
+  offersWrap.innerHTML =
+    '<div style="text-align:center;color:var(--muted);padding:26px 10px;font-size:15px">' +
+    '🎁 لا توجد عروض حالياً<br><span style="font-size:13px">تابعونا، سيتم إضافة العروض قريباً</span></div>';
 }
 
 // بوابة الأطباء
