@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مجمع الشارقة الطبي</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
   :root{
     --primary:#4e8a1f;
@@ -160,6 +163,64 @@
   .close-x{position:absolute;top:10px;left:12px;background:rgba(255,255,255,.25);
     color:#fff;border:none;width:34px;height:34px;border-radius:50%;font-size:22px;
     cursor:pointer;line-height:1}
+
+  /* ===== لوحة الإدارة (مخفية) ===== */
+  .admin-lock{position:fixed;bottom:8px;left:8px;width:26px;height:26px;opacity:.06;
+    z-index:5;cursor:pointer}
+  .adm-modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;
+    align-items:center;justify-content:center;padding:16px;z-index:100}
+  .adm-modal.open{display:flex}
+  .adm-login{background:#fff;border-radius:18px;width:100%;max-width:360px;padding:26px 22px;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);animation:pop .2s ease}
+  .adm-login h3{color:var(--primary);font-size:19px;text-align:center;margin-bottom:4px}
+  .adm-login .sub{color:var(--muted);font-size:13px;text-align:center;margin-bottom:18px}
+  .adm-field{margin-bottom:14px}
+  .adm-field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
+  .adm-input{width:100%;padding:12px 14px;border:1.5px solid #dbe4ec;border-radius:12px;
+    font-size:15px;font-family:inherit;background:#fafcf8;color:var(--text)}
+  .adm-input:focus{outline:none;border-color:var(--primary-light)}
+  .adm-btn{width:100%;padding:13px;border:none;border-radius:12px;background:var(--primary);
+    color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:4px}
+  .adm-btn:active{transform:scale(.98)}
+  .adm-btn.sec{background:#eef3e6;color:var(--primary)}
+  .adm-btn.danger{background:var(--accent)}
+  .adm-btn.small{width:auto;padding:8px 14px;font-size:13px;margin:0}
+  .adm-err{color:var(--accent);font-size:13px;text-align:center;margin-top:10px;min-height:18px}
+  .adm-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.7}
+
+  /* لوحة التحكم كاملة الشاشة */
+  .adm-panel{position:fixed;inset:0;background:var(--bg);z-index:110;display:none;
+    flex-direction:column;overflow:hidden}
+  .adm-panel.open{display:flex}
+  .adm-top{background:linear-gradient(135deg,#4e8a1f,#7cb342);color:#fff;
+    padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .adm-top h3{font-size:17px}
+  .adm-top .who{font-size:12px;opacity:.9}
+  .adm-tabs{display:flex;gap:6px;background:#fff;padding:8px;overflow-x:auto;
+    border-bottom:1px solid #e6ecf1}
+  .adm-tabs button{white-space:nowrap;border:none;background:#f1f5ec;color:var(--muted);
+    padding:9px 14px;border-radius:10px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer}
+  .adm-tabs button.active{background:var(--primary);color:#fff}
+  .adm-body{flex:1;overflow:auto;padding:16px;max-width:600px;width:100%;margin:0 auto}
+  .adm-sec{display:none}
+  .adm-sec.active{display:block}
+  .adm-card{background:#fff;border:1px solid #e6ecf1;border-radius:14px;padding:16px;margin-bottom:14px;
+    position:relative}
+  .adm-card h4{font-size:14px;color:var(--primary);margin-bottom:12px}
+  textarea.adm-input{min-height:90px;resize:vertical;line-height:1.7}
+  .adm-save-bar{position:sticky;bottom:0;background:var(--bg);padding:12px 0 4px;
+    display:flex;gap:10px}
+  .adm-del{position:absolute;top:12px;left:12px;background:#fdeaea;color:var(--accent);
+    border:none;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .adm-toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--primary);color:#fff;padding:12px 22px;border-radius:30px;font-size:14px;
+    font-weight:700;z-index:200;opacity:0;transition:opacity .3s;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .adm-toast.show{opacity:1}
+  .emp-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 0;border-top:1px solid #f0f3f6}
+  .emp-row:first-child{border-top:none}
+  .emp-row .en{font-weight:700;font-size:14px}
+  .emp-row .er{font-size:12px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -238,7 +299,7 @@
       </div>
     </main>
 
-    <div class="footer">© <span id="year"></span> مجمع الشارقة الطبي</div>
+    <div class="footer" id="footer">© <span id="year"></span> مجمع الشارقة الطبي</div>
   </div>
 
   <!-- نافذة بروفايل الطبيب -->
@@ -267,230 +328,580 @@
     </div>
   </div>
 
+  <!-- زر إدارة مخفي (شبه شفاف في الزاوية) -->
+  <div class="admin-lock" id="adminLock" title=""></div>
+
+  <!-- شاشة دخول الإدارة -->
+  <div class="adm-modal" id="admModal">
+    <div class="adm-login">
+      <h3>🔒 دخول الإدارة</h3>
+      <div class="sub">خاص بإدارة المجمع فقط</div>
+      <div class="adm-field">
+        <label>اسم المستخدم</label>
+        <input class="adm-input" id="admUser" type="text" autocomplete="username" dir="ltr">
+      </div>
+      <div class="adm-field">
+        <label>كلمة المرور</label>
+        <input class="adm-input" id="admPass" type="password" autocomplete="current-password" dir="ltr">
+      </div>
+      <button class="adm-btn" id="admLoginBtn">تسجيل الدخول</button>
+      <button class="adm-btn sec" id="admCancelBtn" style="margin-top:8px">إغلاق</button>
+      <div class="adm-err" id="admErr"></div>
+      <div class="adm-note" id="admNote"></div>
+    </div>
+  </div>
+
+  <!-- لوحة التحكم -->
+  <div class="adm-panel" id="admPanel">
+    <div class="adm-top">
+      <div>
+        <h3>لوحة تحكم المجمع</h3>
+        <div class="who" id="admWho"></div>
+      </div>
+      <button class="adm-btn small danger" id="admLogout">خروج</button>
+    </div>
+    <div class="adm-tabs" id="admTabs">
+      <button class="active" data-sec="info">معلومات المجمع</button>
+      <button data-sec="docs">الأطباء</button>
+      <button data-sec="offers">العروض</button>
+      <button data-sec="emps" id="empTabBtn">الموظفون</button>
+    </div>
+    <div class="adm-body">
+      <!-- معلومات المجمع -->
+      <div class="adm-sec active" id="sec-info">
+        <div class="adm-card">
+          <h4>البيانات العامة</h4>
+          <div class="adm-field"><label>اسم المجمع (عربي)</label><input class="adm-input" id="f_nameAr"></div>
+          <div class="adm-field"><label>الاسم بالإنجليزية</label><input class="adm-input" id="f_nameEn" dir="ltr"></div>
+          <div class="adm-field"><label>العنوان</label><textarea class="adm-input" id="f_address"></textarea></div>
+          <div class="adm-field"><label>أرقام الهاتف (رقم في كل سطر)</label><textarea class="adm-input" id="f_contacts" dir="ltr"></textarea></div>
+          <div class="adm-field"><label>رابط فيسبوك (اتركه فارغاً للإخفاء)</label><input class="adm-input" id="f_facebook" dir="ltr"></div>
+          <div class="adm-field"><label>رابط إنستغرام (اتركه فارغاً للإخفاء)</label><input class="adm-input" id="f_instagram" dir="ltr"></div>
+          <div class="adm-field"><label>إحداثية خط العرض (lat)</label><input class="adm-input" id="f_lat" dir="ltr"></div>
+          <div class="adm-field"><label>إحداثية خط الطول (lng)</label><input class="adm-input" id="f_lng" dir="ltr"></div>
+          <div class="adm-field"><label>نص البحث في الخرائط (يُستخدم عند غياب الإحداثيات)</label><input class="adm-input" id="f_mapQuery"></div>
+        </div>
+      </div>
+      <!-- الأطباء -->
+      <div class="adm-sec" id="sec-docs">
+        <div id="docsEditor"></div>
+        <button class="adm-btn sec" id="addDocBtn">+ إضافة طبيب</button>
+      </div>
+      <!-- العروض -->
+      <div class="adm-sec" id="sec-offers">
+        <div id="offersEditor"></div>
+        <button class="adm-btn sec" id="addOfferBtn">+ إضافة عرض</button>
+      </div>
+      <!-- الموظفون -->
+      <div class="adm-sec" id="sec-emps">
+        <div class="adm-card">
+          <h4>إضافة موظف جديد</h4>
+          <div class="adm-field"><label>اسم المستخدم للموظف</label><input class="adm-input" id="empUser" dir="ltr"></div>
+          <div class="adm-field"><label>كلمة المرور (6 أحرف على الأقل)</label><input class="adm-input" id="empPass" dir="ltr"></div>
+          <button class="adm-btn small" id="addEmpBtn">إضافة الموظف</button>
+          <div class="adm-err" id="empErr"></div>
+        </div>
+        <div class="adm-card">
+          <h4>الموظفون الحاليون</h4>
+          <div id="empList"></div>
+        </div>
+        <div class="adm-card">
+          <h4>تغيير كلمة مرور المدير</h4>
+          <div class="adm-field"><label>كلمة المرور الحالية</label><input class="adm-input" id="mgrOldPass" type="password" dir="ltr"></div>
+          <div class="adm-field"><label>كلمة المرور الجديدة (6 أحرف على الأقل)</label><input class="adm-input" id="mgrNewPass" type="password" dir="ltr"></div>
+          <button class="adm-btn small" id="mgrPassBtn">تحديث كلمة المرور</button>
+          <div class="adm-err" id="mgrPassErr"></div>
+        </div>
+      </div>
+
+      <div class="adm-save-bar" id="saveBar">
+        <button class="adm-btn" id="admSaveBtn">💾 حفظ ونشر التغييرات</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="adm-toast" id="admToast"></div>
+
 <script>
 /* ============================================================
    ⬇️  عدّل البيانات هنا فقط (ضع القيم الحقيقية للمجمع)
    ============================================================ */
-const CONFIG = {
+/* ============================================================
+   إعدادات Firebase — الصق إعدادات مشروعك هنا بين القوسين
+   ============================================================ */
+const FIREBASE_CONFIG = {
+  // مثال: apiKey:"...", authDomain:"...", projectId:"...", storageBucket:"...",
+  //       messagingSenderId:"...", appId:"..."
+};
+const EMAIL_DOMAIN = "@smc.local";          // يُضاف تلقائياً بعد اسم المستخدم
+const MANAGER_USERNAME = "manager";          // اسم مستخدم المدير (صاحب صلاحية إدارة الموظفين)
+const MANAGER_EMAIL = MANAGER_USERNAME + EMAIL_DOMAIN;
+
+/* ============================================================
+   البيانات الافتراضية (تظهر إن لم تتوفر بيانات في قاعدة البيانات)
+   ============================================================ */
+const DEFAULT_DATA = {
   nameAr: "مجمع الشارقة الطبي",
   nameEn: "SHARJAH MEDICAL COMPLEX",
-
-  // العنوان النصي
   address: "الفلوجة - الشارع العام - قرب مستشفى الفلوجة - مقابل بوابة الحي الصناعي",
-
-  // أرقام التواصل: اكتب الرقم بالصيغة الدولية بدون رموز للروابط
-  contacts: [
-    { label: "هاتف", display: "+964 786 948 5161", tel: "+9647869485161" },
-  ],
-
-  // روابط التواصل الاجتماعي (اترك الحقل فارغاً لإخفاء الرابط)
+  contacts: ["+964 786 948 5161"],
   facebook: "https://www.facebook.com/share/1Dtq1XGA2s/?mibextid=wwXIfr",
   instagram: "",
-
-  // أطباء المجمع: أضف طبيباً بنسخ الكتلة. photo: مسار صورة الطبيب (اتركه فارغاً لصورة افتراضية)
   doctors: [
-    {
-      name: "د. ندى عبد الله الحسن",
-      specialty: "أخصائية أمراض المفاصل والفقرات والروماتيزم",
-      photo: "",
-      bio: "أخصائية في تأهيل أمراض المفاصل والفقرات، والإصابات الرياضية وعلاج الأمراض المفصلية، والأنسجة الرابطة وهشاشة العظام، وعلاج الخشونة (السوفان) والانزلاق الغضروفي.\n\nالشهادات:\n• شهادة البكالوريوس في الطب والجراحة العامة\n• شهادة الدبلوم العالي (جامعة بغداد) في أمراض المفاصل والفقرات والروماتيزم\n• M.B.Ch.B — H.D.M.R",
-      hours: [],
-      booking: ["+9647822854782", "+9647765748904", "+9647511166300"],
-    },
-    {
-      name: "د. أحمد حردان المحمدي",
-      specialty: "اختصاص الباطنية والقلبية والصدرية",
-      photo: "",
-      bio: "استشاري الأمراض الباطنية والقلبية والصدرية.\n• مستشار منظمة الصحة العالمية",
-      hours: [],
-      booking: ["+9647509675498", "+9647860363652"],
-    },
-    {
-      name: "د. بيداء عبدالله الحسن",
-      specialty: "أخصائية الأمراض النسائية والتوليد والعقم ورعاية الحوامل",
-      photo: "",
-      bio: "شهادة الدكتوراه (بورد) في الأمراض النسائية والتوليد والعقم ورعاية الحوامل.\n• زميلة المجلس العراقي للاختصاصات الطبية\n• M.B.Ch.B — F.I.C.O.G",
-      hours: [],
-      booking: ["+9647806541793"],
-    },
-    {
-      name: "د. عمر ربيع هاشم الدهان",
-      specialty: "الجراح الاستشاري — جراحة الصدر والقلب والأوعية الدموية",
-      photo: "",
-      bio: "استشاري جراحة الصدر والقلب والأوعية الدموية.\n• دكتوراه (بورد) في جراحة الصدر والقلب والأوعية الدموية\n• زميل المجلس العراقي للاختصاصات الطبية\n• عضو جمعية القلب والصدر العراقية\n• علاج دوالي الساقين (العنكبوتية / الشعرية والكبيرة) ودوالي الحمل بالطرق الحديثة وبدون تداخل جراحي",
-      hours: [],
-      booking: ["+9647808866415"],
-    },
-    {
-      name: "د. سؤدد سلمان الدوري",
-      specialty: "أخصائية الأشعة التشخيصية والسونار (Dr. Sodad Al Dori)",
-      photo: "",
-      bio: "دكتوراه (بورد) في الأشعة التشخيصية والسونار — M.B.Ch.B / F.I.B.M.S.\n• فحص سونار (فحص البطن — دوبلر حوامل — فحص الثدي — الغدة الدرقية)\n• فحص دوبلر الشرايين والأوردة للأطراف العليا والسفلى\n• فحص دوبلر شرايين وأوردة الرقبة\n• كتابة تقارير المفراس والأشعة والرنين والأشعة الملونة وأشعة الثدي",
-      hours: [],
-      booking: ["+9647808866415"],
-    },
-    {
-      name: "د. عماد الدين خليل جدوع",
-      specialty: "جراح ممارس — جراحة الصدر والقلب والأوعية الدموية",
-      photo: "",
-      bio: "جراح ممارس في جراحة الصدر والقلب والأوعية الدموية.\n• زرع ومتابعة أجهزة غسل الكلى\n• عمليات دوالي الساقين\n• عمليات الصدر والرئتين ورفع الأكياس المائية\n• ناظور القصبات والمريء",
-      hours: [],
-      booking: ["+9647882288077"],
-    },
+    { name:"د. ندى عبد الله الحسن", specialty:"أخصائية أمراض المفاصل والفقرات والروماتيزم", photo:"",
+      bio:"أخصائية في تأهيل أمراض المفاصل والفقرات، والإصابات الرياضية وعلاج الأمراض المفصلية، والأنسجة الرابطة وهشاشة العظام، وعلاج الخشونة (السوفان) والانزلاق الغضروفي.\n\nالشهادات:\n• شهادة البكالوريوس في الطب والجراحة العامة\n• شهادة الدبلوم العالي (جامعة بغداد) في أمراض المفاصل والفقرات والروماتيزم\n• M.B.Ch.B — H.D.M.R",
+      hours:[], booking:["+9647822854782","+9647765748904","+9647511166300"] },
+    { name:"د. أحمد حردان المحمدي", specialty:"اختصاص الباطنية والقلبية والصدرية", photo:"",
+      bio:"استشاري الأمراض الباطنية والقلبية والصدرية.\n• مستشار منظمة الصحة العالمية",
+      hours:[], booking:["+9647509675498","+9647860363652"] },
+    { name:"د. بيداء عبدالله الحسن", specialty:"أخصائية الأمراض النسائية والتوليد والعقم ورعاية الحوامل", photo:"",
+      bio:"شهادة الدكتوراه (بورد) في الأمراض النسائية والتوليد والعقم ورعاية الحوامل.\n• زميلة المجلس العراقي للاختصاصات الطبية\n• M.B.Ch.B — F.I.C.O.G",
+      hours:[], booking:["+9647806541793"] },
+    { name:"د. عمر ربيع هاشم الدهان", specialty:"الجراح الاستشاري — جراحة الصدر والقلب والأوعية الدموية", photo:"",
+      bio:"استشاري جراحة الصدر والقلب والأوعية الدموية.\n• دكتوراه (بورد) في جراحة الصدر والقلب والأوعية الدموية\n• زميل المجلس العراقي للاختصاصات الطبية\n• عضو جمعية القلب والصدر العراقية\n• علاج دوالي الساقين (العنكبوتية / الشعرية والكبيرة) ودوالي الحمل بالطرق الحديثة وبدون تداخل جراحي",
+      hours:[], booking:["+9647808866415"] },
+    { name:"د. سؤدد سلمان الدوري", specialty:"أخصائية الأشعة التشخيصية والسونار (Dr. Sodad Al Dori)", photo:"",
+      bio:"دكتوراه (بورد) في الأشعة التشخيصية والسونار — M.B.Ch.B / F.I.B.M.S.\n• فحص سونار (فحص البطن — دوبلر حوامل — فحص الثدي — الغدة الدرقية)\n• فحص دوبلر الشرايين والأوردة للأطراف العليا والسفلى\n• فحص دوبلر شرايين وأوردة الرقبة\n• كتابة تقارير المفراس والأشعة والرنين والأشعة الملونة وأشعة الثدي",
+      hours:[], booking:["+9647808866415"] },
+    { name:"د. عماد الدين خليل جدوع", specialty:"جراح ممارس — جراحة الصدر والقلب والأوعية الدموية", photo:"",
+      bio:"جراح ممارس في جراحة الصدر والقلب والأوعية الدموية.\n• زرع ومتابعة أجهزة غسل الكلى\n• عمليات دوالي الساقين\n• عمليات الصدر والرئتين ورفع الأكياس المائية\n• ناظور القصبات والمريء",
+      hours:[], booking:["+9647882288077"] },
   ],
-
-  // عروض المجمع: أضف عرضاً بنسخ الكتلة. اترك المصفوفة فارغة [] لإخفاء القسم بالكامل
-  // الحقول: badge شارة، title العنوان، desc الوصف، priceNew السعر الجديد، priceOld السعر القديم،
-  //         valid مدة السريان، book رقم الحجز (اتركه فارغاً لإخفاء زر الحجز). كل الحقول اختيارية عدا العنوان.
   offers: [],
-
-  // نص البحث في الخرائط (يُستخدم للعثور على المجمع بالاسم والموقع)
   mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
-
-  // إحداثيات دقيقة (اختياري): ضعها إن توفرت، وإلا اتركها null ليُستخدم البحث بالاسم
   lat: 33.353694,
   lng: 43.794750,
 };
 /* ============================================================ */
 
-// تبديل الأقسام (التبويبات)
-document.querySelectorAll(".tab").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("panel-" + btn.dataset.panel).classList.add("active");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-});
+const clone = o => JSON.parse(JSON.stringify(o));
+let DATA = clone(DEFAULT_DATA);
+const $ = id => document.getElementById(id);
 
-document.getElementById("name").textContent = CONFIG.nameAr;
-document.getElementById("name-en").textContent = CONFIG.nameEn;
-document.getElementById("address").textContent = CONFIG.address;
-document.getElementById("year").textContent = new Date().getFullYear();
-
-// أرقام التواصل
-const cWrap = document.getElementById("contacts");
-CONFIG.contacts.forEach((c, i) => {
-  const href = c.whatsapp
-    ? "https://wa.me/" + c.tel.replace(/[^0-9]/g, "")
-    : "tel:" + c.tel;
-  const row = document.createElement("div");
-  row.className = "row";
-  row.innerHTML = '<span class="lbl">' + c.label + '</span>' +
-                  '<a href="' + href + '" dir="ltr">' + c.display + '</a>';
-  cWrap.appendChild(row);
-  if (i === 0) document.getElementById("main-call").href = "tel:" + c.tel;
-});
-
-// روابط الخرائط: استخدم الإحداثيات إن توفرت، وإلا ابحث بالاسم والموقع
-const hasCoords = (CONFIG.lat != null && CONFIG.lng != null);
-if (hasCoords) {
-  document.getElementById("gmaps").href =
-    "https://www.google.com/maps/search/?api=1&query=" + CONFIG.lat + "," + CONFIG.lng;
-  document.getElementById("waze").href =
-    "https://waze.com/ul?ll=" + CONFIG.lat + "," + CONFIG.lng + "&navigate=yes";
-} else {
-  const q = encodeURIComponent(CONFIG.mapQuery);
-  document.getElementById("gmaps").href =
-    "https://www.google.com/maps/search/?api=1&query=" + q;
-  document.getElementById("waze").href =
-    "https://waze.com/ul?q=" + q + "&navigate=yes";
-}
-
-// روابط التواصل الاجتماعي
-const fb = document.getElementById("facebook");
-const ig = document.getElementById("instagram");
-if (CONFIG.facebook) { fb.href = CONFIG.facebook; } else { fb.style.display = "none"; }
-if (CONFIG.instagram) { ig.href = CONFIG.instagram; }
-
-// عروض المجمع
-const offersWrap = document.getElementById("offers");
-const offersCard = document.getElementById("offersCard");
-if (CONFIG.offers && CONFIG.offers.length) {
-  CONFIG.offers.forEach(o => {
-    const el = document.createElement("div");
-    el.className = "offer";
-    let html = "";
-    if (o.badge) html += '<span class="badge">' + o.badge + '</span>';
-    html += '<div class="oh">' + (o.title || "") + '</div>';
-    if (o.desc) html += '<div class="od">' + o.desc + '</div>';
-    if (o.priceNew) {
-      html += '<div class="price"><span class="new">' + o.priceNew + '</span>' +
-              (o.priceOld ? '<span class="old">' + o.priceOld + '</span>' : '') + '</div>';
-    }
-    if (o.valid) html += '<span class="valid">⏳ ' + o.valid + '</span><br>';
-    if (o.book) html += '<a class="obook" href="tel:' + o.book.replace(/[^0-9+]/g, "") + '">احجز العرض</a>';
-    el.innerHTML = html;
-    offersWrap.appendChild(el);
-  });
-} else {
-  offersWrap.innerHTML =
-    '<div style="text-align:center;color:var(--muted);padding:26px 10px;font-size:15px">' +
-    '🎁 لا توجد عروض حالياً<br><span style="font-size:13px">تابعونا، سيتم إضافة العروض قريباً</span></div>';
-}
-
-// بوابة الأطباء
 const AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
   '<rect width="100" height="100" fill="#eef3e6"/>' +
   '<circle cx="50" cy="40" r="18" fill="#7cb342"/>' +
   '<path d="M20 90c0-18 13-27 30-27s30 9 30 27z" fill="#7cb342"/></svg>');
 
-const docsWrap = document.getElementById("docs");
-const modal = document.getElementById("docModal");
+const modal = $("docModal");
+const esc = s => String(s == null ? "" : s)
+  .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const telHref = s => "tel:" + String(s).replace(/[^0-9+]/g, "");
 
-(CONFIG.doctors || []).forEach((doc, idx) => {
-  const el = document.createElement("div");
-  el.className = "doc";
-  el.innerHTML =
-    '<img class="ph" src="' + (doc.photo || AVATAR) + '" alt="' + doc.name + '">' +
-    '<div class="dn">' + doc.name + '</div>' +
-    '<div class="ds">' + doc.specialty + '</div>';
-  el.addEventListener("click", () => openDoc(idx));
-  docsWrap.appendChild(el);
-});
+/* ---------- العرض العام (يُعاد رسمه عند أي تحديث) ---------- */
+function renderAll() {
+  $("name").textContent = DATA.nameAr || "";
+  $("name-en").textContent = DATA.nameEn || "";
+  $("address").textContent = DATA.address || "";
+  $("year").textContent = new Date().getFullYear();
 
-function openDoc(i) {
-  const d = CONFIG.doctors[i];
-  document.getElementById("mPhoto").src = d.photo || AVATAR;
-  document.getElementById("mName").textContent = d.name;
-  document.getElementById("mSpec").textContent = d.specialty;
+  // أرقام التواصل
+  const cWrap = $("contacts");
+  cWrap.innerHTML = "";
+  const contacts = (DATA.contacts || []).filter(x => String(x).trim());
+  contacts.forEach((c, i) => {
+    const row = document.createElement("div");
+    row.className = "row";
+    row.innerHTML = '<span class="lbl">هاتف</span>' +
+      '<a href="' + telHref(c) + '" dir="ltr">' + esc(c) + '</a>';
+    cWrap.appendChild(row);
+    if (i === 0) $("main-call").href = telHref(c);
+  });
 
-  const bioSec = document.getElementById("mBioSec");
-  if (d.bio) {
-    document.getElementById("mBio").textContent = d.bio;
-    bioSec.style.display = "";
+  // الخرائط
+  const hasCoords = (DATA.lat != null && DATA.lng != null && DATA.lat !== "" && DATA.lng !== "");
+  if (hasCoords) {
+    $("gmaps").href = "https://www.google.com/maps/search/?api=1&query=" + DATA.lat + "," + DATA.lng;
+    $("waze").href = "https://waze.com/ul?ll=" + DATA.lat + "," + DATA.lng + "&navigate=yes";
   } else {
-    bioSec.style.display = "none";
+    const q = encodeURIComponent(DATA.mapQuery || DATA.nameAr || "");
+    $("gmaps").href = "https://www.google.com/maps/search/?api=1&query=" + q;
+    $("waze").href = "https://waze.com/ul?q=" + q + "&navigate=yes";
   }
 
-  const h = document.getElementById("mHours");
-  h.innerHTML = "";
-  (d.hours || []).forEach(x => {
-    const r = document.createElement("div");
-    r.className = "item";
-    r.textContent = x;
-    h.appendChild(r);
-  });
-  document.getElementById("mHoursSec").style.display =
-    (d.hours && d.hours.length) ? "" : "none";
+  // التواصل الاجتماعي
+  const fb = $("facebook"), ig = $("instagram");
+  if (DATA.facebook) { fb.href = DATA.facebook; fb.style.display = ""; } else { fb.style.display = "none"; }
+  if (DATA.instagram) { ig.href = DATA.instagram; ig.style.display = ""; } else { ig.style.display = "none"; }
 
-  const b = document.getElementById("mBooking");
-  b.innerHTML = "";
-  (d.booking || []).forEach(num => {
-    const a = document.createElement("a");
-    a.className = "book";
-    a.href = "tel:" + num.replace(/[^0-9+]/g, "");
-    a.textContent = "احجز الآن: " + num;
-    b.appendChild(a);
+  // الأطباء
+  const docsWrap = $("docs");
+  docsWrap.innerHTML = "";
+  (DATA.doctors || []).forEach((doc, idx) => {
+    const el = document.createElement("div");
+    el.className = "doc";
+    el.innerHTML =
+      '<img class="ph" src="' + (doc.photo || AVATAR) + '" alt="' + esc(doc.name) + '">' +
+      '<div class="dn">' + esc(doc.name) + '</div>' +
+      '<div class="ds">' + esc(doc.specialty) + '</div>';
+    el.addEventListener("click", () => openDoc(idx));
+    docsWrap.appendChild(el);
   });
 
-  modal.classList.add("open");
+  // العروض
+  const offersWrap = $("offers");
+  offersWrap.innerHTML = "";
+  const offers = DATA.offers || [];
+  if (offers.length) {
+    offers.forEach(o => {
+      const el = document.createElement("div");
+      el.className = "offer";
+      let html = "";
+      if (o.badge) html += '<span class="badge">' + esc(o.badge) + '</span>';
+      html += '<div class="oh">' + esc(o.title || "") + '</div>';
+      if (o.desc) html += '<div class="od">' + esc(o.desc) + '</div>';
+      if (o.priceNew) {
+        html += '<div class="price"><span class="new">' + esc(o.priceNew) + '</span>' +
+                (o.priceOld ? '<span class="old">' + esc(o.priceOld) + '</span>' : '') + '</div>';
+      }
+      if (o.valid) html += '<span class="valid">⏳ ' + esc(o.valid) + '</span><br>';
+      if (o.book) html += '<a class="obook" href="' + telHref(o.book) + '">احجز العرض</a>';
+      el.innerHTML = html;
+      offersWrap.appendChild(el);
+    });
+  } else {
+    offersWrap.innerHTML =
+      '<div style="text-align:center;color:var(--muted);padding:26px 10px;font-size:15px">' +
+      '🎁 لا توجد عروض حالياً<br><span style="font-size:13px">تابعونا، سيتم إضافة العروض قريباً</span></div>';
+  }
 }
 
-document.getElementById("docClose").addEventListener("click", () => modal.classList.remove("open"));
+function openDoc(i) {
+  const d = DATA.doctors[i];
+  $("mPhoto").src = d.photo || AVATAR;
+  $("mName").textContent = d.name;
+  $("mSpec").textContent = d.specialty;
+  const bioSec = $("mBioSec");
+  if (d.bio) { $("mBio").textContent = d.bio; bioSec.style.display = ""; } else { bioSec.style.display = "none"; }
+  const h = $("mHours"); h.innerHTML = "";
+  (d.hours || []).forEach(x => { const r = document.createElement("div"); r.className = "item"; r.textContent = x; h.appendChild(r); });
+  $("mHoursSec").style.display = (d.hours && d.hours.length) ? "" : "none";
+  const b = $("mBooking"); b.innerHTML = "";
+  (d.booking || []).forEach(num => {
+    const a = document.createElement("a"); a.className = "book"; a.href = telHref(num);
+    a.textContent = "احجز الآن: " + num; b.appendChild(a);
+  });
+  modal.classList.add("open");
+}
+$("docClose").addEventListener("click", () => modal.classList.remove("open"));
 modal.addEventListener("click", e => { if (e.target === modal) modal.classList.remove("open"); });
+
+// تبديل الأقسام (التبويبات العامة)
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    btn.classList.add("active");
+    $("panel-" + btn.dataset.panel).classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
+renderAll();
+
+/* ============================================================
+   Firebase: القراءة الحية + تسجيل الدخول + لوحة التحكم
+   ============================================================ */
+const FB_READY = !!(FIREBASE_CONFIG && FIREBASE_CONFIG.apiKey);
+let db = null, auth = null, secApp = null, currentIsManager = false;
+
+if (FB_READY) {
+  try {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    // قراءة حية للبيانات المنشورة (يراها كل الزوار فوراً)
+    db.collection("site").doc("config").onSnapshot(snap => {
+      if (snap.exists) { DATA = Object.assign(clone(DEFAULT_DATA), snap.data()); renderAll(); }
+    }, err => console.warn("snapshot:", err));
+    auth.onAuthStateChanged(handleAuth);
+  } catch (e) { console.warn("Firebase init failed:", e); }
+}
+
+/* ---------- الوصول للوحة (مخفي) ---------- */
+function openLogin() {
+  if (!FB_READY) {
+    $("admNote").textContent = "لم يتم إعداد قاعدة البيانات بعد. تواصل مع المطوّر لإكمال ربط Firebase.";
+  }
+  $("admErr").textContent = "";
+  $("admModal").classList.add("open");
+}
+$("adminLock").addEventListener("click", openLogin);
+
+// خمس ضغطات متتالية على عبارة الحقوق في الأسفل تفتح دخول الإدارة
+let footerTaps = 0, footerTimer = null;
+$("footer").addEventListener("click", () => {
+  footerTaps++;
+  clearTimeout(footerTimer);
+  footerTimer = setTimeout(() => { footerTaps = 0; }, 2000);
+  if (footerTaps >= 5) { footerTaps = 0; clearTimeout(footerTimer); openLogin(); }
+});
+
+if (location.hash === "#admin") openLogin();
+window.addEventListener("hashchange", () => { if (location.hash === "#admin") openLogin(); });
+
+$("admCancelBtn").addEventListener("click", () => $("admModal").classList.remove("open"));
+
+$("admLoginBtn").addEventListener("click", async () => {
+  const u = $("admUser").value.trim().toLowerCase();
+  const p = $("admPass").value;
+  if (!u || !p) { $("admErr").textContent = "أدخل اسم المستخدم وكلمة المرور"; return; }
+  if (!FB_READY) { $("admErr").textContent = "قاعدة البيانات غير مهيأة بعد"; return; }
+  $("admErr").textContent = "جارٍ الدخول...";
+  try {
+    await auth.signInWithEmailAndPassword(u + EMAIL_DOMAIN, p);
+    $("admErr").textContent = "";
+  } catch (e) {
+    $("admErr").textContent = "بيانات الدخول غير صحيحة";
+  }
+});
+
+async function handleAuth(user) {
+  if (!user) { $("admPanel").classList.remove("open"); return; }
+  const isMgr = (user.email === MANAGER_EMAIL);
+  if (!isMgr) {
+    try {
+      const ud = await db.collection("users").doc(user.uid).get();
+      if (!ud.exists || ud.data().active === false) {
+        await auth.signOut();
+        $("admErr").textContent = "تم إيقاف صلاحية هذا الحساب";
+        return;
+      }
+    } catch (e) {
+      await auth.signOut();
+      $("admErr").textContent = "تعذّر التحقق من الصلاحية";
+      return;
+    }
+  }
+  currentIsManager = isMgr;
+  $("admModal").classList.remove("open");
+  $("admWho").textContent = (isMgr ? "مدير المختبر" : "موظف") + " • " + user.email.replace(EMAIL_DOMAIN, "");
+  $("empTabBtn").style.display = isMgr ? "" : "none";
+  fillForms();
+  if (isMgr) loadEmployees();
+  $("admPanel").classList.add("open");
+}
+
+$("admLogout").addEventListener("click", async () => {
+  if (auth) await auth.signOut();
+  $("admPanel").classList.remove("open");
+  location.hash = "";
+});
+
+/* ---------- تبويبات لوحة التحكم ---------- */
+document.querySelectorAll("#admTabs button").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll("#admTabs button").forEach(x => x.classList.remove("active"));
+    document.querySelectorAll(".adm-sec").forEach(s => s.classList.remove("active"));
+    b.classList.add("active");
+    $("sec-" + b.dataset.sec).classList.add("active");
+    $("saveBar").style.display = (b.dataset.sec === "emps") ? "none" : "flex";
+  });
+});
+
+/* ---------- تعبئة النماذج من البيانات ---------- */
+let editDoctors = [], editOffers = [];
+function fillForms() {
+  $("f_nameAr").value = DATA.nameAr || "";
+  $("f_nameEn").value = DATA.nameEn || "";
+  $("f_address").value = DATA.address || "";
+  $("f_contacts").value = (DATA.contacts || []).join("\n");
+  $("f_facebook").value = DATA.facebook || "";
+  $("f_instagram").value = DATA.instagram || "";
+  $("f_lat").value = (DATA.lat == null ? "" : DATA.lat);
+  $("f_lng").value = (DATA.lng == null ? "" : DATA.lng);
+  $("f_mapQuery").value = DATA.mapQuery || "";
+  editDoctors = clone(DATA.doctors || []);
+  editOffers = clone(DATA.offers || []);
+  renderDocsEditor();
+  renderOffersEditor();
+}
+
+function field(label, value, oninput, multiline) {
+  const w = document.createElement("div");
+  w.className = "adm-field";
+  const l = document.createElement("label"); l.textContent = label;
+  const inp = document.createElement(multiline ? "textarea" : "input");
+  inp.className = "adm-input"; inp.value = value || "";
+  inp.addEventListener("input", () => oninput(inp.value));
+  w.appendChild(l); w.appendChild(inp);
+  return w;
+}
+
+function renderDocsEditor() {
+  const wrap = $("docsEditor"); wrap.innerHTML = "";
+  editDoctors.forEach((d, i) => {
+    const card = document.createElement("div"); card.className = "adm-card";
+    const del = document.createElement("button"); del.className = "adm-del"; del.textContent = "حذف";
+    del.onclick = () => { editDoctors.splice(i, 1); renderDocsEditor(); };
+    const h = document.createElement("h4"); h.textContent = "طبيب #" + (i + 1);
+    card.appendChild(del); card.appendChild(h);
+    card.appendChild(field("الاسم", d.name, v => d.name = v));
+    card.appendChild(field("الاختصاص", d.specialty, v => d.specialty = v));
+    card.appendChild(field("رابط صورة الطبيب (اختياري)", d.photo, v => d.photo = v));
+    card.appendChild(field("النبذة", d.bio, v => d.bio = v, true));
+    card.appendChild(field("أوقات الدوام (سطر لكل وقت — اختياري)", (d.hours || []).join("\n"),
+      v => d.hours = v.split("\n").map(s => s.trim()).filter(Boolean), true));
+    card.appendChild(field("أرقام الحجز (رقم في كل سطر)", (d.booking || []).join("\n"),
+      v => d.booking = v.split("\n").map(s => s.trim()).filter(Boolean), true));
+    wrap.appendChild(card);
+  });
+}
+$("addDocBtn").addEventListener("click", () => {
+  editDoctors.push({ name: "", specialty: "", photo: "", bio: "", hours: [], booking: [] });
+  renderDocsEditor();
+});
+
+function renderOffersEditor() {
+  const wrap = $("offersEditor"); wrap.innerHTML = "";
+  editOffers.forEach((o, i) => {
+    const card = document.createElement("div"); card.className = "adm-card";
+    const del = document.createElement("button"); del.className = "adm-del"; del.textContent = "حذف";
+    del.onclick = () => { editOffers.splice(i, 1); renderOffersEditor(); };
+    const h = document.createElement("h4"); h.textContent = "عرض #" + (i + 1);
+    card.appendChild(del); card.appendChild(h);
+    card.appendChild(field("الشارة (مثل: عرض خاص)", o.badge, v => o.badge = v));
+    card.appendChild(field("العنوان", o.title, v => o.title = v));
+    card.appendChild(field("الوصف", o.desc, v => o.desc = v, true));
+    card.appendChild(field("السعر الجديد (اختياري)", o.priceNew, v => o.priceNew = v));
+    card.appendChild(field("السعر القديم (اختياري)", o.priceOld, v => o.priceOld = v));
+    card.appendChild(field("مدة السريان (اختياري)", o.valid, v => o.valid = v));
+    card.appendChild(field("رقم الحجز للعرض (اختياري)", o.book, v => o.book = v));
+    wrap.appendChild(card);
+  });
+}
+$("addOfferBtn").addEventListener("click", () => {
+  editOffers.push({ badge: "", title: "", desc: "", priceNew: "", priceOld: "", valid: "", book: "" });
+  renderOffersEditor();
+});
+
+/* ---------- الحفظ والنشر ---------- */
+$("admSaveBtn").addEventListener("click", async () => {
+  const latRaw = $("f_lat").value.trim(), lngRaw = $("f_lng").value.trim();
+  const payload = {
+    nameAr: $("f_nameAr").value.trim(),
+    nameEn: $("f_nameEn").value.trim(),
+    address: $("f_address").value.trim(),
+    contacts: $("f_contacts").value.split("\n").map(s => s.trim()).filter(Boolean),
+    facebook: $("f_facebook").value.trim(),
+    instagram: $("f_instagram").value.trim(),
+    lat: latRaw === "" ? null : parseFloat(latRaw),
+    lng: lngRaw === "" ? null : parseFloat(lngRaw),
+    mapQuery: $("f_mapQuery").value.trim(),
+    doctors: editDoctors,
+    offers: editOffers,
+  };
+  try {
+    await db.collection("site").doc("config").set(payload, { merge: true });
+    toast("✓ تم الحفظ والنشر بنجاح");
+  } catch (e) {
+    toast("تعذّر الحفظ — تحقق من الصلاحية");
+    console.warn(e);
+  }
+});
+
+/* ---------- إدارة الموظفين (للمدير فقط) ---------- */
+function getSecApp() {
+  if (!secApp) secApp = firebase.initializeApp(FIREBASE_CONFIG, "secondary");
+  return secApp;
+}
+async function loadEmployees() {
+  const list = $("empList"); list.innerHTML = "جارٍ التحميل...";
+  try {
+    const snap = await db.collection("users").get();
+    list.innerHTML = "";
+    if (snap.empty) { list.innerHTML = '<div class="er">لا يوجد موظفون بعد</div>'; return; }
+    snap.forEach(doc => {
+      const d = doc.data();
+      const row = document.createElement("div"); row.className = "emp-row";
+      row.innerHTML = '<div><div class="en">' + esc(d.username || doc.id) + '</div>' +
+        '<div class="er">' + (d.active === false ? "موقوف" : "نشط") +
+        (d.pass ? " • كلمة المرور: " + esc(d.pass) : "") + '</div></div>';
+      const box = document.createElement("div");
+      box.style.cssText = "display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end";
+      const editBtn = document.createElement("button");
+      editBtn.className = "adm-btn small sec"; editBtn.textContent = "كلمة المرور";
+      editBtn.onclick = () => resetEmpPassword(doc.id, d.username, d.pass);
+      const btn = document.createElement("button");
+      btn.className = "adm-btn small danger"; btn.textContent = "حذف";
+      btn.onclick = async () => {
+        if (!confirm("حذف صلاحية هذا الموظف؟")) return;
+        await db.collection("users").doc(doc.id).delete();
+        loadEmployees();
+      };
+      box.appendChild(editBtn); box.appendChild(btn);
+      row.appendChild(box);
+      list.appendChild(row);
+    });
+  } catch (e) { list.innerHTML = '<div class="er">تعذّر التحميل</div>'; }
+}
+async function resetEmpPassword(uid, username, currentPass) {
+  const np = prompt("أدخل كلمة المرور الجديدة للموظف \"" + username + "\" (6 أحرف على الأقل):");
+  if (np == null) return;
+  if (np.length < 6) { toast("كلمة المرور قصيرة جداً"); return; }
+  if (!currentPass) {
+    toast("تعذّر تغيير كلمة المرور لهذا الحساب (أنشئه من جديد)");
+    return;
+  }
+  try {
+    const sec = getSecApp();
+    await sec.auth().signInWithEmailAndPassword(username + EMAIL_DOMAIN, currentPass);
+    await sec.auth().currentUser.updatePassword(np);
+    await sec.auth().signOut();
+    await db.collection("users").doc(uid).update({ pass: np });
+    toast("✓ تم تحديث كلمة مرور الموظف");
+    loadEmployees();
+  } catch (e) {
+    toast("تعذّر التحديث: " + (e.message || ""));
+    console.warn(e);
+  }
+}
+
+$("mgrPassBtn").addEventListener("click", async () => {
+  const oldP = $("mgrOldPass").value, newP = $("mgrNewPass").value;
+  $("mgrPassErr").textContent = "";
+  if (!oldP || newP.length < 6) { $("mgrPassErr").textContent = "أدخل كلمة المرور الحالية وكلمة جديدة (6 أحرف على الأقل)"; return; }
+  try {
+    const cred = firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, oldP);
+    await auth.currentUser.reauthenticateWithCredential(cred);
+    await auth.currentUser.updatePassword(newP);
+    $("mgrOldPass").value = ""; $("mgrNewPass").value = "";
+    toast("✓ تم تحديث كلمة مرور المدير");
+  } catch (e) {
+    $("mgrPassErr").textContent = (e.code === "auth/wrong-password" || e.code === "auth/invalid-credential")
+      ? "كلمة المرور الحالية غير صحيحة" : "تعذّر التحديث: " + (e.message || "");
+  }
+});
+
+$("addEmpBtn").addEventListener("click", async () => {
+  const u = $("empUser").value.trim().toLowerCase();
+  const p = $("empPass").value;
+  $("empErr").textContent = "";
+  if (!u || p.length < 6) { $("empErr").textContent = "أدخل اسم مستخدم وكلمة مرور (6 أحرف على الأقل)"; return; }
+  try {
+    const sec = getSecApp();
+    const cred = await sec.auth().createUserWithEmailAndPassword(u + EMAIL_DOMAIN, p);
+    await db.collection("users").doc(cred.user.uid).set({
+      username: u, role: "employee", active: true, pass: p, created: Date.now()
+    });
+    await sec.auth().signOut();
+    $("empUser").value = ""; $("empPass").value = "";
+    toast("✓ تمت إضافة الموظف");
+    loadEmployees();
+  } catch (e) {
+    $("empErr").textContent = (e.code === "auth/email-already-in-use")
+      ? "اسم المستخدم مستخدم مسبقاً" : "تعذّرت الإضافة: " + (e.message || "");
+  }
+});
+
+/* ---------- إشعار ---------- */
+let toastTimer = null;
+function toast(msg) {
+  const t = $("admToast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove("show"), 2600);
+}
 </script>
 </body>
 </html>
