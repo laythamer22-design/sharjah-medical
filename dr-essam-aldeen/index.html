@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="google" content="notranslate">
 <meta name="theme-color" content="#050510">
 <title>د. عصام الدين خليل</title>
@@ -346,7 +348,11 @@
           <div class="icon-holo">03</div>
           <div><h2>احجز موعدك</h2><p>تواصل مباشرةً مع العيادة</p></div>
         </div>
-        <div id="booking"></div>
+        <div id="booking">
+          <a class="book" id="book-call" href="tel:+9647872346767">
+            <span class="dot-live"></span> احجز الآن — +9647872346767
+          </a>
+        </div>
       </section>
 
       <section class="holo-card">
@@ -437,13 +443,12 @@ document.getElementById("year").textContent = new Date().getFullYear();
 document.getElementById("photo").src = CONFIG.photo || AVATAR;
 document.getElementById("bio").innerHTML = "<ul>" + CONFIG.bioItems.map(i => "<li>" + i + "</li>").join("") + "</ul>";
 
-CONFIG.booking.forEach(num => {
-  const a = document.createElement("a");
-  a.className = "book";
-  a.href = telHref(num);
-  a.innerHTML = '<span class="dot-live"></span> احجز الآن — ' + num;
-  document.getElementById("booking").appendChild(a);
-});
+const phone = CONFIG.booking[0];
+const bookCall = document.getElementById("book-call");
+if (bookCall && phone) {
+  bookCall.href = telHref(phone);
+  bookCall.innerHTML = '<span class="dot-live"></span> احجز الآن — ' + phone;
+}
 
 const mapUrl = CONFIG.mapsUrl;
 const wazeUrl = "https://waze.com/ul?ll=" + CONFIG.lat + "," + CONFIG.lng + "&navigate=yes";
