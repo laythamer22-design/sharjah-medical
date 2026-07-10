@@ -166,6 +166,14 @@
   .qbtn.map .ic{background:linear-gradient(135deg,#00b4d8,#0077b6);box-shadow:0 8px 24px rgba(0,180,216,.3)}
   .qbtn.clinic .ic{background:linear-gradient(135deg,#00ffc8,#059669);box-shadow:0 8px 24px rgba(0,255,200,.25)}
 
+  .quick-social{
+    display:flex;gap:12px;justify-content:center;padding:0 16px 20px;
+    animation:fadeUp .9s .45s ease both;
+  }
+  .qbtn.fb .ic{background:linear-gradient(135deg,#1877f2,#0d65d9);box-shadow:0 8px 24px rgba(24,119,242,.35)}
+  .qbtn.ig .ic{background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf);box-shadow:0 8px 24px rgba(214,41,118,.3)}
+  .soc.pending{opacity:.45;filter:grayscale(.3);pointer-events:none}
+
   /* ═══ بطاقات هولوغرام ═══ */
   .content{padding:0 16px}
   .holo-card{
@@ -344,6 +352,11 @@
       <a class="qbtn clinic" href="https://laythamer22-design.github.io/sharjah-medical/" target="_blank" rel="noopener"><span class="ic">🏥</span><span>المجمع</span></a>
     </div>
 
+    <div class="quick-social">
+      <a class="qbtn fb" id="quick-fb" href="#" target="_blank" rel="noopener"><span class="ic">📘</span><span>Facebook</span></a>
+      <a class="qbtn ig" id="quick-ig" href="#" target="_blank" rel="noopener"><span class="ic">📸</span><span>Instagram</span></a>
+    </div>
+
     <main class="content">
       <section class="holo-card">
         <div class="card-head">
@@ -441,6 +454,7 @@ const CONFIG = {
   lat: 33.353694, lng: 43.794750,
   mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
   photo: "",
+  /* ⬇️ ضع روابط حسابات الطبيب هنا */
   facebook: "",
   instagram: ""
 };
@@ -477,21 +491,26 @@ document.getElementById("quick-call").href = telHref(CONFIG.booking[0]);
 
 const fb = document.getElementById("facebook");
 const ig = document.getElementById("instagram");
-const socialCard = document.getElementById("socialCard");
-if (CONFIG.facebook) {
-  fb.href = CONFIG.facebook;
-  fb.style.display = "";
-} else {
-  fb.style.display = "none";
+const qfb = document.getElementById("quick-fb");
+const qig = document.getElementById("quick-ig");
+const socialHint = document.getElementById("socialHint");
+
+function wireSocial(el, url) {
+  if (url) {
+    el.href = url;
+    el.classList.remove("pending");
+  } else {
+    el.href = "#";
+    el.classList.add("pending");
+  }
 }
-if (CONFIG.instagram) {
-  ig.href = CONFIG.instagram;
-  ig.style.display = "";
-} else {
-  ig.style.display = "none";
-}
+wireSocial(fb, CONFIG.facebook);
+wireSocial(ig, CONFIG.instagram);
+wireSocial(qfb, CONFIG.facebook);
+wireSocial(qig, CONFIG.instagram);
+
 if (!CONFIG.facebook && !CONFIG.instagram) {
-  socialCard.style.display = "none";
+  socialHint.textContent = "أرسل روابط فيسبوك وإنستغرام لتفعيل الأيقونات";
 }
 </script>
 </body>
