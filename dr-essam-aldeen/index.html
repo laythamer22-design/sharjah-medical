@@ -171,9 +171,8 @@
     box-shadow:0 24px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(212,184,106,.08) inset;
   }
   .lux-section:nth-child(1){animation-delay:.42s}
-  .lux-section:nth-child(2){animation-delay:.52s}
-  .lux-section:nth-child(3){animation-delay:.62s}
-  .lux-section:nth-child(4){animation-delay:.72s}
+  .lux-section:nth-child(2){animation-delay:.55s}
+  .lux-section:nth-child(3){animation-delay:.68s}
 
   .sec-head{margin-bottom:20px;position:relative;z-index:1;text-align:center}
   .sec-tag{
@@ -201,6 +200,17 @@
   }
   .clinic-tag::before{content:"◆";font-size:8px;color:var(--gold)}
 
+  .bio-intro{
+    position:relative;z-index:1;font-size:14px;line-height:2;color:#c8d3ea;
+    padding:18px 20px;border-radius:18px;text-align:center;
+    background:linear-gradient(135deg,rgba(212,184,106,.06),rgba(255,255,255,.02));
+    border:1px solid rgba(212,184,106,.12);margin-bottom:18px;
+  }
+  .sub-label{
+    position:relative;z-index:1;text-align:center;font-size:11px;font-weight:800;
+    letter-spacing:1.5px;color:var(--gold);margin-bottom:12px;
+  }
+
   .services{display:flex;flex-direction:column;gap:8px;position:relative;z-index:1}
   .svc{
     display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;
@@ -214,15 +224,6 @@
   }
   .svc:hover{transform:translateX(-4px);border-color:rgba(212,184,106,.25);background:rgba(212,184,106,.05)}
   .svc .st{font-size:13px;font-weight:700;color:#e8edf8;line-height:1.6;text-align:right;flex:1}
-
-  .bio{
-    position:relative;z-index:1;font-size:14px;line-height:2.15;color:#c8d3ea;
-    padding:20px;border-radius:18px;
-    background:linear-gradient(135deg,rgba(212,184,106,.06),rgba(255,255,255,.02));
-    border:1px solid rgba(212,184,106,.12);
-  }
-  .bio li{margin-right:18px;margin-bottom:8px}
-  .bio li::marker{color:var(--gold)}
 
   .contact-block{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px}
   .contact-clinic{
@@ -338,28 +339,14 @@
     <main class="content">
       <section class="lux-section">
         <header class="sec-head">
-          <span class="sec-tag">خدماتنا</span>
-          <h2>التخصصات والعلاجات</h2>
-          <p>رعاية شاملة لصحة الفم والأسنان</p>
-          <div class="sec-line"></div>
-        </header>
-        <div class="services">
-          <div class="svc"><span class="st">حشوات تجميلية + حشوات جذور</span></div>
-          <div class="svc"><span class="st">تنظيف وتبييض الأسنان</span></div>
-          <div class="svc"><span class="st">تركيبات الأسنان</span></div>
-          <div class="svc"><span class="st">علاج اللثة</span></div>
-          <div class="svc"><span class="st">خلع وجراحة الفم</span></div>
-        </div>
-      </section>
-
-      <section class="lux-section">
-        <header class="sec-head">
           <span class="sec-tag">نبذة</span>
-          <h2>عن الطبيب</h2>
+          <h2>عن الطبيب والتخصصات</h2>
           <p>خبرة واسعة في طب وجراحة الأسنان</p>
           <div class="sec-line"></div>
         </header>
-        <div class="bio" id="bio"></div>
+        <p class="bio-intro" id="bio-intro"></p>
+        <p class="sub-label">التخصصات والعلاجات</p>
+        <div class="services" id="services"></div>
       </section>
 
       <section class="lux-section featured">
@@ -463,7 +450,10 @@ document.getElementById("specialty").textContent = CONFIG.specialty;
 document.getElementById("address").textContent = CONFIG.address;
 document.getElementById("year").textContent = new Date().getFullYear();
 document.getElementById("photo").src = CONFIG.photo || AVATAR;
-document.getElementById("bio").innerHTML = "<ul>" + CONFIG.bioItems.map(i => "<li>" + i + "</li>").join("") + "</ul>";
+document.getElementById("bio-intro").textContent = CONFIG.bioItems[0] || "";
+document.getElementById("services").innerHTML = CONFIG.bioItems.slice(1).map(function(i) {
+  return '<div class="svc"><span class="st">' + i + '</span></div>';
+}).join("");
 
 const phone = CONFIG.booking[0];
 const bookCall = document.getElementById("book-call");
