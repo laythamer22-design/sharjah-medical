@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>باركود د. عصام الدين خليل</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Cairo",sans-serif;
+    background:#070d18;min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:24px;
+  }
+  .bg{
+    position:fixed;inset:0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(16,185,129,.2), transparent),
+      linear-gradient(180deg,#070d18,#0a1628);
+  }
+  .card{
+    position:relative;width:100%;max-width:420px;border-radius:28px;overflow:hidden;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(24px);box-shadow:0 32px 80px rgba(0,0,0,.5);
+    text-align:center;
+  }
+  .head{
+    padding:28px 20px 22px;
+    background:linear-gradient(135deg,rgba(16,185,129,.3),rgba(56,189,248,.15));
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .head .tag{
+    display:inline-block;font-size:11px;font-weight:700;color:#34d399;
+    background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);
+    padding:5px 14px;border-radius:999px;margin-bottom:12px;
+  }
+  .head h1{
+    font-size:24px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:8px;
+    background:linear-gradient(135deg,#fff,#a7f3d0);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .head p{font-size:13px;color:#94a3b8;line-height:1.7}
+  .body{padding:24px 22px 30px}
+  .qr-box{
+    background:#fff;border-radius:20px;padding:18px;margin:0 auto 16px;
+    box-shadow:0 12px 40px rgba(0,0,0,.3);max-width:260px;
+  }
+  .qr-box img{width:100%;height:auto;display:block}
+  .scan-note{font-size:13px;color:#94a3b8;margin-bottom:10px;line-height:1.7}
+
+  .direct-box{
+    margin:0 0 16px;padding:16px;border-radius:18px;text-align:center;
+    background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.22);
+  }
+  .direct-box p{font-size:12px;color:#94a3b8;line-height:1.75;margin-bottom:12px}
+  .direct-link{
+    display:block;padding:14px 12px;border-radius:14px;text-decoration:none;
+    font-size:14px;font-weight:800;color:#fff;margin-bottom:8px;
+    background:linear-gradient(135deg,#059669,#34d399);
+    box-shadow:0 8px 24px rgba(16,185,129,.28);
+    transition:transform .15s;
+  }
+  .direct-link:active{transform:scale(.97)}
+  .url-text{
+    display:block;font-size:10px;color:#64748b;word-break:break-all;
+    direction:ltr;line-height:1.6;padding:8px 4px 0;
+  }
+  .btn.copy{
+    width:100%;margin-top:8px;padding:11px;border:none;border-radius:12px;
+    font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;
+    background:rgba(255,255,255,.08);color:#cbd5e1;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  .btn.copy:active{transform:scale(.98)}
+  .copy-ok{font-size:11px;color:#34d399;margin-top:6px;min-height:16px}
+
+  .social-label{
+    font-size:13px;color:#64748b;font-weight:700;margin:8px 0 12px;
+  }
+  .social{
+    display:flex;gap:18px;justify-content:center;margin-bottom:18px;
+  }
+  .soc{
+    width:64px;height:64px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;text-decoration:none;transition:transform .15s;
+  }
+  .soc:active{transform:scale(.92)}
+  .soc svg{width:32px;height:32px;fill:#fff}
+  .soc.fb{background:linear-gradient(135deg,#1877f2,#0d65d9);box-shadow:0 8px 24px rgba(24,119,242,.35)}
+  .soc.ig{background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);box-shadow:0 8px 24px rgba(214,41,118,.3)}
+  .soc.pending{opacity:.4;filter:grayscale(.4);pointer-events:none}
+
+  .label{
+    font-size:13px;color:#64748b;font-weight:700;margin:16px 0 8px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .label::before,.label::after{
+    content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  }
+  .barcode-wrap{
+    background:rgba(255,255,255,.95);border-radius:14px;padding:12px 16px;
+    margin:0 auto;max-width:320px;
+  }
+  .barcode-wrap img{width:100%;height:auto;display:block}
+  .hint{
+    font-size:12px;color:#64748b;margin-top:18px;line-height:1.8;
+    padding:14px;background:rgba(0,0,0,.2);border-radius:14px;
+    border:1px dashed rgba(255,255,255,.08);
+  }
+  .hint strong{color:#34d399}
+  .actions{display:flex;gap:10px;margin-top:18px}
+  .btn{
+    flex:1;padding:13px;border:none;border-radius:14px;font-size:14px;
+    font-weight:800;font-family:inherit;cursor:pointer;transition:transform .15s;
+  }
+  .btn:active{transform:scale(.96)}
+  .btn.print{
+    background:linear-gradient(135deg,#34d399,#059669);color:#fff;
+    box-shadow:0 8px 24px rgba(16,185,129,.3);
+  }
+  .btn.open{
+    background:rgba(255,255,255,.08);color:#e2e8f0;
+    border:1px solid rgba(255,255,255,.12);
+  }
+  @media print{
+    body{background:#fff;padding:0}
+    .bg{display:none}
+    .card{box-shadow:none;border:1px solid #ddd;background:#fff;max-width:100%}
+    .head{background:#059669;-webkit-text-fill-color:#fff}
+    .head h1{-webkit-text-fill-color:#fff;background:none;color:#fff}
+    .direct-box{background:#f0fdf4;border:1px solid #bbf7d0}
+    .direct-box p,.url-text{color:#555}
+    .direct-link{color:#fff}
+    .btn.copy{display:none}
+    .copy-ok{display:none}
+    .actions{display:none}
+    .soc.pending{opacity:1;filter:none}
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="card">
+    <div class="head">
+      <div class="tag">✦ بطاقة الباركود الرسمية</div>
+      <h1 translate="no">د. عصام الدين خليل</h1>
+      <p>طبيب أسنان — اختصاص طب وجراحة الفم والأسنان<br>مجمع السلامة الطبي — الفلوجة</p>
+    </div>
+    <div class="body">
+      <div class="qr-box">
+        <img src="BARCODE_USE_THIS.png" alt="رمز QR لد. عصام الدين">
+      </div>
+      <p class="scan-note">للبطاقة المطبوعة: امسح الرمز بالكاميرا<br>للهاتف الواحد: اضغط الرابط أدناه مباشرة</p>
+
+      <div class="direct-box">
+        <p>لا تحتاج هاتفاً ثانياً — افتح صفحة الطبيب مباشرة</p>
+        <a class="direct-link" id="page-link" href="#" target="_blank" rel="noopener">🌐 افتح صفحة الطبيب</a>
+        <span class="url-text" id="page-url"></span>
+        <button class="btn copy" id="copy-link" type="button">📋 نسخ الرابط</button>
+        <p class="copy-ok" id="copy-ok"></p>
+      </div>
+
+      <p class="social-label">تابع الطبيب على</p>
+      <div class="social">
+        <a class="soc fb pending" id="card-fb" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a class="soc ig pending" id="card-ig" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+      </div>
+
+      <div class="label">باركود Code128</div>
+      <div class="barcode-wrap">
+        <img src="barcode_dr_essam_aldeen.png" alt="باركود د. عصام الدين">
+      </div>
+
+      <p class="hint" id="cardHint">
+        <strong>للمسح:</strong> استخدم كamera هاتف آخر أو بطاقة مطبوعة<br>
+        <strong>بدون مسح:</strong> اضغط «افتح صفحة الطبيب» أو انسخ الرابط<br>
+        المعرّف: <strong>DR-ESSAM-ALDEEN-001</strong>
+      </p>
+      <div class="actions">
+        <button class="btn print" onclick="window.print()">🖨️ طباعة</button>
+        <button class="btn open" id="preview-btn" type="button">🌐 معاينة الصفحة</button>
+      </div>
+    </div>
+  </div>
+<script>
+const PAGE_URL = "https://laythamer22-design.github.io/sharjah-medical/dr-essam-aldeen/?v=20260710f";
+
+document.getElementById("page-link").href = PAGE_URL;
+document.getElementById("page-url").textContent = PAGE_URL;
+document.getElementById("preview-btn").onclick = () => window.open(PAGE_URL, "_blank");
+
+document.getElementById("copy-link").onclick = async function() {
+  const ok = document.getElementById("copy-ok");
+  try {
+    await navigator.clipboard.writeText(PAGE_URL);
+    ok.textContent = "✓ تم نسخ الرابط";
+  } catch (e) {
+    ok.textContent = "انسخ الرابط يدوياً من الأعلى";
+  }
+};
+
+/* ⬇️ ضع روابط حسابات الطبيب هنا */
+const SOCIAL = {
+  facebook: "https://www.facebook.com/share/18FttSY2eH/?mibextid=wwXIfr",
+  instagram: "https://www.instagram.com/dr_essamuldeen?igsh=MWV0ZWk0dzgwMjVldA%3D%3D&utm_source=qr"
+};
+function linkSocial(id, url) {
+  const el = document.getElementById(id);
+  if (url) { el.href = url; el.classList.remove("pending"); }
+}
+linkSocial("card-fb", SOCIAL.facebook);
+linkSocial("card-ig", SOCIAL.instagram);
+if (!SOCIAL.facebook && !SOCIAL.instagram) {
+  document.getElementById("cardHint").innerHTML +=
+    "<br><br>أرسل روابط فيسبوك وإنستغرام لتفعيل الأيقونات";
+}
+</script>
+</body>
+</html>
