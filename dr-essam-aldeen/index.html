@@ -71,27 +71,6 @@
 
   /* ═══ ترويسة هولوغرام ═══ */
   .hero{padding:44px 20px 28px;text-align:center;position:relative}
-  .holo-badge{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:8px 18px;border-radius:999px;font-size:12px;font-weight:800;
-    color:#fff;margin-bottom:24px;position:relative;overflow:hidden;
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.15);
-    backdrop-filter:blur(12px);
-    animation:fadeDown .8s ease both;
-  }
-  .holo-badge::before{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
-    transform:translateX(-100%);animation:shimmer 3s infinite;
-  }
-  @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
-  .holo-badge .dot{
-    width:8px;height:8px;border-radius:50%;
-    background:linear-gradient(135deg,#00ffc8,#ff00aa);
-    box-shadow:0 0 12px #00ffc8;animation:pulse 2s infinite;
-  }
-  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
 
   .avatar-holo{
     position:relative;width:156px;height:156px;margin:0 auto 22px;
