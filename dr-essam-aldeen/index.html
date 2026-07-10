@@ -159,20 +159,12 @@
   .qbtn:hover::before{opacity:1}
   .qbtn .ic{
     width:46px;height:46px;border-radius:16px;display:flex;align-items:center;
-    justify-content:center;font-size:22px;position:relative;z-index:1;
+    justify-content:center;position:relative;z-index:1;
   }
+  .qbtn .ic svg{width:22px;height:22px;fill:#fff}
   .qbtn span:last-child{position:relative;z-index:1}
   .qbtn.call .ic{background:linear-gradient(135deg,#ff006e,#ff4d6d);box-shadow:0 8px 24px rgba(255,0,110,.35)}
   .qbtn.map .ic{background:linear-gradient(135deg,#00b4d8,#0077b6);box-shadow:0 8px 24px rgba(0,180,216,.3)}
-  .qbtn.clinic .ic{background:linear-gradient(135deg,#00ffc8,#059669);box-shadow:0 8px 24px rgba(0,255,200,.25)}
-
-  .quick-social{
-    display:flex;gap:12px;justify-content:center;padding:0 16px 20px;
-    animation:fadeUp .9s .45s ease both;
-  }
-  .qbtn.fb .ic{background:linear-gradient(135deg,#1877f2,#0d65d9);box-shadow:0 8px 24px rgba(24,119,242,.35)}
-  .qbtn.ig .ic{background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf);box-shadow:0 8px 24px rgba(214,41,118,.3)}
-  .soc.pending{opacity:.45;filter:grayscale(.3);pointer-events:none}
 
   /* ═══ بطاقات هولوغرام ═══ */
   .content{padding:0 16px}
@@ -207,22 +199,23 @@
   .card-head{display:flex;align-items:center;gap:14px;margin-bottom:18px;position:relative;z-index:1}
   .icon-holo{
     width:48px;height:48px;border-radius:16px;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;font-size:22px;
+    display:flex;align-items:center;justify-content:center;
     background:linear-gradient(135deg,rgba(255,0,170,.2),rgba(0,255,200,.15));
     border:1px solid rgba(255,255,255,.12);
     box-shadow:0 4px 20px rgba(0,255,200,.12);
+    color:#00ffc8;font-size:13px;font-weight:900;letter-spacing:.5px;
   }
   .card-head h2{font-size:17px;font-weight:900;color:#fff}
   .card-head p{font-size:12px;color:var(--muted);margin-top:3px}
 
   .services{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
   .svc{
-    padding:16px 10px;border-radius:18px;text-align:center;
+    padding:14px 12px;border-radius:18px;text-align:center;
     background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
     transition:transform .2s,border-color .2s;
   }
   .svc:hover{transform:translateY(-3px);border-color:rgba(0,255,200,.25)}
-  .svc .si{font-size:26px;margin-bottom:8px;display:block;filter:drop-shadow(0 0 8px rgba(0,255,200,.3))}
+  .svc .si{display:none}
   .svc .st{font-size:12px;font-weight:700;color:#dde4f5;line-height:1.55}
 
   .bio{
@@ -313,6 +306,7 @@
     background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
     box-shadow:0 10px 28px rgba(214,41,118,.3);
   }
+  .soc.pending{opacity:.45;filter:grayscale(.3);pointer-events:none}
   .social-hint{
     position:relative;z-index:1;text-align:center;font-size:13px;color:var(--muted);
     line-height:1.8;padding:8px 12px 0;
@@ -349,34 +343,34 @@
     </header>
 
     <div class="quick">
-      <a class="qbtn call" id="quick-call" href="#"><span class="ic">📞</span><span>اتصل</span></a>
-      <a class="qbtn map" id="quick-map" href="#" target="_blank" rel="noopener"><span class="ic">📍</span><span>الموقع</span></a>
-      <a class="qbtn clinic" id="quick-clinic" href="#" target="_blank" rel="noopener"><span class="ic">🏥</span><span>المجمع</span></a>
-    </div>
-
-    <div class="quick-social">
-      <a class="qbtn fb" id="quick-fb" href="#" target="_blank" rel="noopener"><span class="ic">📘</span><span>Facebook</span></a>
-      <a class="qbtn ig" id="quick-ig" href="#" target="_blank" rel="noopener"><span class="ic">📸</span><span>Instagram</span></a>
+      <a class="qbtn call" id="quick-call" href="#">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/></svg></span>
+        <span>اتصل</span>
+      </a>
+      <a class="qbtn map" id="quick-map" href="#" target="_blank" rel="noopener">
+        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
+        <span>الموقع</span>
+      </a>
     </div>
 
     <main class="content">
       <section class="holo-card">
         <div class="card-head">
-          <div class="icon-holo">⚕️</div>
+          <div class="icon-holo">01</div>
           <div><h2>التخصصات والخدمات</h2><p>رعاية شاملة لصحة الفم والأسنان</p></div>
         </div>
         <div class="services">
-          <div class="svc"><span class="si">🦷</span><span class="st">حشوات تجميلية + حشوات جذور</span></div>
-          <div class="svc"><span class="si">✨</span><span class="st">تنظيف وتبييض الأسنان</span></div>
-          <div class="svc"><span class="si">🔧</span><span class="st">تركيبات الأسنان</span></div>
-          <div class="svc"><span class="si">🩺</span><span class="st">علاج اللثة</span></div>
-          <div class="svc"><span class="si">🏥</span><span class="st">خلع وجراحة الفم</span></div>
+          <div class="svc"><span class="st">حشوات تجميلية + حشوات جذور</span></div>
+          <div class="svc"><span class="st">تنظيف وتبييض الأسنان</span></div>
+          <div class="svc"><span class="st">تركيبات الأسنان</span></div>
+          <div class="svc"><span class="st">علاج اللثة</span></div>
+          <div class="svc"><span class="st">خلع وجراحة الفم</span></div>
         </div>
       </section>
 
       <section class="holo-card">
         <div class="card-head">
-          <div class="icon-holo">📝</div>
+          <div class="icon-holo">02</div>
           <div><h2>نبذة عن الطبيب</h2><p>خبرة واسعة في طب وجراحة الأسنان</p></div>
         </div>
         <div class="bio" id="bio"></div>
@@ -384,7 +378,7 @@
 
       <section class="holo-card">
         <div class="card-head">
-          <div class="icon-holo">📅</div>
+          <div class="icon-holo">03</div>
           <div><h2>احجز موعدك</h2><p>تواصل مباشرةً مع العيادة</p></div>
         </div>
         <div id="booking"></div>
@@ -392,7 +386,7 @@
 
       <section class="holo-card">
         <div class="card-head">
-          <div class="icon-holo">📍</div>
+          <div class="icon-holo">04</div>
           <div><h2>موقع العيادة</h2><p>مجمع السلامة الطبي — الفلوجة</p></div>
         </div>
         <div class="address" id="address"></div>
@@ -419,30 +413,18 @@
 
       <section class="holo-card" id="socialCard">
         <div class="card-head">
-          <div class="icon-holo">🌐</div>
-          <div><h2>تابع الطبيب</h2><p>على مواقع التواصل الاجتماعي</p></div>
+          <div class="icon-holo">05</div>
+          <div><h2>تابع الطبيب</h2><p>فيسبوك وإنستغرام</p></div>
         </div>
         <div class="social">
           <a class="soc fb" id="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12S0 5.446 0 12.073c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           </a>
           <a class="soc ig" id="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zm0 1.95c-3.15 0-3.52.01-4.76.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.17.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.05 1.15.24 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.17 1.04.36 2.19.41 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c1.15-.05 1.77-.24 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.17-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.05-1.17-.24-1.77-.41-2.19-.21-.55-.47-.94-.88-1.35-.41-.41-.8-.67-1.35-.88-.42-.17-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.76-.07zm0 3.32A4.57 4.57 0 1 0 16.57 12 4.58 4.58 0 0 0 12 7.43zm0 7.54A2.97 2.97 0 1 1 14.97 12 2.97 2.97 0 0 1 12 14.97zm5.81-7.74a1.07 1.07 0 1 1-1.07-1.07 1.07 1.07 0 0 1 1.07 1.07z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
           </a>
         </div>
         <p class="social-hint" id="socialHint">تابعنا للاطلاع على آخر العروض والخدمات</p>
-      </section>
-
-      <section class="holo-card">
-        <div class="card-head">
-          <div class="icon-holo">🏥</div>
-          <div><h2>المجمع الطبي</h2><p>ضمن مجمع السلامة الطبي</p></div>
-        </div>
-        <div class="complex">
-          <div class="clogo">🏥</div>
-          <div><h3>مجمع السلامة الطبي</h3><p>الفلوجة — محافظة الأنبار</p></div>
-        </div>
-        <a class="clink" id="complex-map" href="https://maps.app.goo.gl/TZCmeDCvLDbvtqrx6?g_st=iwb" target="_blank" rel="noopener">تحديد موقع المجمع على الخريطة ←</a>
       </section>
     </main>
 
@@ -503,14 +485,10 @@ const wazeUrl = "https://waze.com/ul?ll=" + CONFIG.lat + "," + CONFIG.lng + "&na
 document.getElementById("gmaps").href = mapUrl;
 document.getElementById("waze").href = wazeUrl;
 document.getElementById("quick-map").href = mapUrl;
-document.getElementById("quick-clinic").href = mapUrl;
-document.getElementById("complex-map").href = mapUrl;
 document.getElementById("quick-call").href = telHref(CONFIG.booking[0]);
 
 const fb = document.getElementById("facebook");
 const ig = document.getElementById("instagram");
-const qfb = document.getElementById("quick-fb");
-const qig = document.getElementById("quick-ig");
 const socialHint = document.getElementById("socialHint");
 
 function wireSocial(el, url) {
@@ -524,8 +502,6 @@ function wireSocial(el, url) {
 }
 wireSocial(fb, CONFIG.facebook);
 wireSocial(ig, CONFIG.instagram);
-wireSocial(qfb, CONFIG.facebook);
-wireSocial(qig, CONFIG.instagram);
 
 if (!CONFIG.facebook && !CONFIG.instagram) {
   socialHint.textContent = "أرسل روابط فيسبوك وإنستغرام لتفعيل الأيقونات";
