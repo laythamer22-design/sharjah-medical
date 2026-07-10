@@ -285,6 +285,29 @@
   }
   .clink:active{transform:scale(.96)}
 
+  .social{
+    display:flex;gap:22px;justify-content:center;position:relative;z-index:1;
+    padding:10px 0 4px;
+  }
+  .soc{
+    width:68px;height:68px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;text-decoration:none;transition:transform .15s,box-shadow .2s;
+  }
+  .soc:active{transform:scale(.92)}
+  .soc svg{width:34px;height:34px;fill:#fff}
+  .soc.fb{
+    background:linear-gradient(135deg,#1877f2,#0d65d9);
+    box-shadow:0 10px 28px rgba(24,119,242,.35);
+  }
+  .soc.ig{
+    background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
+    box-shadow:0 10px 28px rgba(214,41,118,.3);
+  }
+  .social-hint{
+    position:relative;z-index:1;text-align:center;font-size:13px;color:var(--muted);
+    line-height:1.8;padding:8px 12px 0;
+  }
+
   .footer{
     text-align:center;padding:28px 16px 14px;font-size:11px;
     color:rgba(154,168,196,.45);line-height:1.8;
@@ -365,6 +388,22 @@
         </div>
       </section>
 
+      <section class="holo-card" id="socialCard">
+        <div class="card-head">
+          <div class="icon-holo">🌐</div>
+          <div><h2>تابع الطبيب</h2><p>على مواقع التواصل الاجتماعي</p></div>
+        </div>
+        <div class="social">
+          <a class="soc fb" id="facebook" href="#" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.69.24 2.69.24v2.97h-1.52c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg>
+          </a>
+          <a class="soc ig" id="instagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zm0 1.95c-3.15 0-3.52.01-4.76.07-1.15.05-1.77.24-2.19.41-.55.21-.94.47-1.35.88-.41.41-.67.8-.88 1.35-.17.42-.36 1.04-.41 2.19-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.05 1.15.24 1.77.41 2.19.21.55.47.94.88 1.35.41.41.8.67 1.35.88.42.17 1.04.36 2.19.41 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c1.15-.05 1.77-.24 2.19-.41.55-.21.94-.47 1.35-.88.41-.41.67-.8.88-1.35.17-.42.36-1.04.41-2.19.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.05-1.17-.24-1.77-.41-2.19-.21-.55-.47-.94-.88-1.35-.41-.41-.8-.67-1.35-.88-.42-.17-1.04-.36-2.19-.41-1.24-.06-1.61-.07-4.76-.07zm0 3.32A4.57 4.57 0 1 0 16.57 12 4.58 4.58 0 0 0 12 7.43zm0 7.54A2.97 2.97 0 1 1 14.97 12 2.97 2.97 0 0 1 12 14.97zm5.81-7.74a1.07 1.07 0 1 1-1.07-1.07 1.07 1.07 0 0 1 1.07 1.07z"/></svg>
+          </a>
+        </div>
+        <p class="social-hint" id="socialHint">تابعنا للاطلاع على آخر العروض والخدمات</p>
+      </section>
+
       <section class="holo-card">
         <div class="card-head">
           <div class="icon-holo">🏥</div>
@@ -401,7 +440,9 @@ const CONFIG = {
   address: "مجمع الشارقة الطبي — الفلوجة - الشارع العام - قرب مستشفى الفلوجة - مقابل بوابة الحي الصناعي",
   lat: 33.353694, lng: 43.794750,
   mapQuery: "مجمع الشارقة الطبي، حي الضباط، الفلوجة، الأنبار، العراق",
-  photo: ""
+  photo: "",
+  facebook: "",
+  instagram: ""
 };
 const AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs>' +
@@ -433,6 +474,25 @@ document.getElementById("gmaps").href = mapUrl;
 document.getElementById("waze").href = wazeUrl;
 document.getElementById("quick-map").href = mapUrl;
 document.getElementById("quick-call").href = telHref(CONFIG.booking[0]);
+
+const fb = document.getElementById("facebook");
+const ig = document.getElementById("instagram");
+const socialCard = document.getElementById("socialCard");
+if (CONFIG.facebook) {
+  fb.href = CONFIG.facebook;
+  fb.style.display = "";
+} else {
+  fb.style.display = "none";
+}
+if (CONFIG.instagram) {
+  ig.href = CONFIG.instagram;
+  ig.style.display = "";
+} else {
+  ig.style.display = "none";
+}
+if (!CONFIG.facebook && !CONFIG.instagram) {
+  socialCard.style.display = "none";
+}
 </script>
 </body>
 </html>
