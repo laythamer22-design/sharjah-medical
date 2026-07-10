@@ -142,32 +142,8 @@
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
   @keyframes fadeDown{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
 
-  /* ═══ أزرار سريعة ═══ */
-  .quick{display:flex;gap:10px;padding:0 16px 22px;animation:fadeUp .9s .4s ease both}
-  .qbtn{
-    flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;
-    padding:16px 8px;border-radius:20px;text-decoration:none;
-    font-size:12px;font-weight:800;color:#fff;position:relative;overflow:hidden;
-    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
-    backdrop-filter:blur(16px);transition:transform .2s;
-  }
-  .qbtn:active{transform:scale(.94)}
-  .qbtn::before{
-    content:"";position:absolute;inset:0;opacity:0;transition:opacity .3s;
-    background:linear-gradient(135deg,rgba(255,0,170,.2),rgba(0,255,200,.15));
-  }
-  .qbtn:hover::before{opacity:1}
-  .qbtn .ic{
-    width:46px;height:46px;border-radius:16px;display:flex;align-items:center;
-    justify-content:center;position:relative;z-index:1;
-  }
-  .qbtn .ic svg{width:22px;height:22px;fill:#fff}
-  .qbtn span:last-child{position:relative;z-index:1}
-  .qbtn.call .ic{background:linear-gradient(135deg,#ff006e,#ff4d6d);box-shadow:0 8px 24px rgba(255,0,110,.35)}
-  .qbtn.map .ic{background:linear-gradient(135deg,#00b4d8,#0077b6);box-shadow:0 8px 24px rgba(0,180,216,.3)}
-
   /* ═══ بطاقات هولوغرام ═══ */
-  .content{padding:0 16px}
+  .content{padding:0 16px 4px}
   .holo-card{
     position:relative;border-radius:24px;padding:22px;margin-bottom:14px;
     background:rgba(12,14,35,.75);backdrop-filter:blur(24px);
@@ -342,17 +318,6 @@
       <p class="en" id="name-en">DR. ESSAM AL-DEEN KHALIL — DENTIST</p>
     </header>
 
-    <div class="quick">
-      <a class="qbtn call" id="quick-call" href="#">
-        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24 11.36 11.36 0 0 0 3.56.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.56 1 1 0 0 1-.24 1.01l-2.2 2.2z"/></svg></span>
-        <span>اتصل</span>
-      </a>
-      <a class="qbtn map" id="quick-map" href="#" target="_blank" rel="noopener">
-        <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
-        <span>الموقع</span>
-      </a>
-    </div>
-
     <main class="content">
       <section class="holo-card">
         <div class="card-head">
@@ -484,8 +449,6 @@ const mapUrl = CONFIG.mapsUrl;
 const wazeUrl = "https://waze.com/ul?ll=" + CONFIG.lat + "," + CONFIG.lng + "&navigate=yes";
 document.getElementById("gmaps").href = mapUrl;
 document.getElementById("waze").href = wazeUrl;
-document.getElementById("quick-map").href = mapUrl;
-document.getElementById("quick-call").href = telHref(CONFIG.booking[0]);
 
 const fb = document.getElementById("facebook");
 const ig = document.getElementById("instagram");
