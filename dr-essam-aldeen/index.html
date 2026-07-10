@@ -351,7 +351,7 @@
     <div class="quick">
       <a class="qbtn call" id="quick-call" href="#"><span class="ic">📞</span><span>اتصل</span></a>
       <a class="qbtn map" id="quick-map" href="#" target="_blank" rel="noopener"><span class="ic">📍</span><span>الموقع</span></a>
-      <a class="qbtn clinic" href="https://laythamer22-design.github.io/sharjah-medical/" target="_blank" rel="noopener"><span class="ic">🏥</span><span>المجمع</span></a>
+      <a class="qbtn clinic" id="quick-clinic" href="#" target="_blank" rel="noopener"><span class="ic">🏥</span><span>المجمع</span></a>
     </div>
 
     <div class="quick-social">
@@ -442,7 +442,7 @@
           <div class="clogo">🏥</div>
           <div><h3>مجمع السلامة الطبي</h3><p>الفلوجة — محافظة الأنبار</p></div>
         </div>
-        <a class="clink" href="https://laythamer22-design.github.io/sharjah-medical/" target="_blank" rel="noopener">زيارة صفحة المجمع ←</a>
+        <a class="clink" id="complex-map" href="https://maps.app.goo.gl/TZCmeDCvLDbvtqrx6?g_st=iwb" target="_blank" rel="noopener">تحديد موقع المجمع على الخريطة ←</a>
       </section>
     </main>
 
@@ -465,7 +465,7 @@ const CONFIG = {
     "علاج أمراض اللثة وخلع الأسنان"
   ],
   booking: ["+9647882288077"],
-  address: "مجمع السلامة الطبي — الفلوجة - الشارع العام - قرب مستشفى الفلوجة - مقابل بوابة الحي الصناعي",
+  address: "مجمع السلامة الطبي — الفلوجة، محافظة الأنبار، العراق",
   lat: 33.3574, lng: 43.7965,
   mapsUrl: "https://maps.app.goo.gl/TZCmeDCvLDbvtqrx6?g_st=iwb",
   mapQuery: "مجمع السلامة الطبي، الفلوجة، الأنبار، العراق",
@@ -503,6 +503,8 @@ const wazeUrl = "https://waze.com/ul?ll=" + CONFIG.lat + "," + CONFIG.lng + "&na
 document.getElementById("gmaps").href = mapUrl;
 document.getElementById("waze").href = wazeUrl;
 document.getElementById("quick-map").href = mapUrl;
+document.getElementById("quick-clinic").href = mapUrl;
+document.getElementById("complex-map").href = mapUrl;
 document.getElementById("quick-call").href = telHref(CONFIG.booking[0]);
 
 const fb = document.getElementById("facebook");
