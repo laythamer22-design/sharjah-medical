@@ -7,58 +7,62 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <meta name="google" content="notranslate">
-<meta name="theme-color" content="#050510">
+<meta name="theme-color" content="#c9a227">
 <title>د. مصطفى</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --text:#f8faff;
-    --muted:#a8b4cc;
-    --gold:#d4b86a;
-    --gold-light:#f0dfa0;
-    --gold-dim:rgba(212,184,106,.18);
-    --panel:rgba(10,12,28,.82);
-    --line:rgba(255,255,255,.08);
+    --navy:#0a1628;
+    --navy-mid:#1a2744;
+    --navy-soft:#2c4a7c;
+    --text:#0a1628;
+    --muted:#1a2744;
+    --gold:#c9a227;
+    --gold-light:#e8c96a;
+    --gold-pale:#f5e6b8;
+    --gold-dim:rgba(201,162,39,.25);
+    --panel:rgba(255,252,240,.88);
+    --line:rgba(10,22,40,.18);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
     font-family:"Cairo",system-ui,sans-serif;
-    background:#050510;color:var(--text);
+    background:#c9a227;color:var(--text);
     min-height:100vh;overflow-x:hidden;
   }
 
-  /* ═══ خلفية هولوغرام ═══ */
+  /* ═══ خلفية ذهبية ═══ */
   .universe{
     position:fixed;inset:0;z-index:0;overflow:hidden;
-    background:#050510;
+    background:linear-gradient(160deg,#e8c96a 0%,#c9a227 35%,#b8941f 70%,#d4af37 100%);
   }
   .holo-mesh{
     position:absolute;inset:-50%;
     background:
       conic-gradient(from 0deg at 50% 50%,
-        rgba(255,0,128,.12), rgba(0,255,200,.1), rgba(100,120,255,.12),
-        rgba(255,200,0,.08), rgba(255,0,128,.12));
+        rgba(255,240,180,.35), rgba(201,162,39,.2), rgba(232,201,106,.3),
+        rgba(184,148,31,.25), rgba(255,240,180,.35));
     animation:meshSpin 20s linear infinite;
   }
   @keyframes meshSpin{to{transform:rotate(360deg)}}
   .holo-beam{
     position:absolute;inset:0;
     background:
-      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(0,255,200,.18), transparent 50%),
-      radial-gradient(ellipse 50% 35% at 80% 20%, rgba(255,0,180,.15), transparent 45%),
-      radial-gradient(ellipse 55% 45% at 50% 90%, rgba(100,150,255,.12), transparent 50%),
-      linear-gradient(180deg, #050510 0%, #0a0820 40%, #050510 100%);
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(255,248,220,.45), transparent 50%),
+      radial-gradient(ellipse 50% 35% at 80% 20%, rgba(232,201,106,.35), transparent 45%),
+      radial-gradient(ellipse 55% 45% at 50% 90%, rgba(184,148,31,.2), transparent 50%),
+      linear-gradient(180deg, #e8c96a 0%, #c9a227 40%, #b8941f 100%);
   }
   .sparkles{
-    position:absolute;inset:0;opacity:.6;
+    position:absolute;inset:0;opacity:.5;
     background-image:
-      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,.8), transparent),
-      radial-gradient(1px 1px at 30% 60%, rgba(0,255,200,.9), transparent),
-      radial-gradient(1.5px 1.5px at 70% 30%, rgba(255,100,200,.8), transparent),
-      radial-gradient(1px 1px at 85% 75%, rgba(150,200,255,.7), transparent),
-      radial-gradient(1px 1px at 50% 45%, rgba(255,255,150,.6), transparent),
-      radial-gradient(1px 1px at 15% 85%, rgba(200,100,255,.7), transparent);
+      radial-gradient(1px 1px at 10% 20%, rgba(10,22,40,.25), transparent),
+      radial-gradient(1px 1px at 30% 60%, rgba(10,22,40,.2), transparent),
+      radial-gradient(1.5px 1.5px at 70% 30%, rgba(255,248,220,.8), transparent),
+      radial-gradient(1px 1px at 85% 75%, rgba(10,22,40,.18), transparent),
+      radial-gradient(1px 1px at 50% 45%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 15% 85%, rgba(10,22,40,.15), transparent);
     background-size:100% 100%;
     animation:twinkle 4s ease-in-out infinite alternate;
   }
@@ -78,7 +82,7 @@
   }
   .avatar-holo .ring{
     position:absolute;inset:-6px;border-radius:50%;padding:3px;
-    background:linear-gradient(135deg,#ff00aa,#00ffc8,#667eea,#ffd700,#ff00aa);
+    background:linear-gradient(135deg,#0a1628,#1a2744,#2c4a7c,#0a1628);
     background-size:300% 300%;animation:holoShift 4s ease infinite;
   }
   @keyframes holoShift{
@@ -87,42 +91,39 @@
   }
   .avatar-holo .ring2{
     position:absolute;inset:-14px;border-radius:50%;
-    border:1px solid rgba(255,255,255,.08);
+    border:1px solid rgba(10,22,40,.25);
     animation:spin 12s linear infinite;
   }
   .avatar-holo .ring2::after{
     content:"";position:absolute;top:-2px;left:50%;width:8px;height:8px;
-    border-radius:50%;background:#00ffc8;box-shadow:0 0 16px #00ffc8;
+    border-radius:50%;background:#0a1628;box-shadow:0 0 12px rgba(10,22,40,.4);
   }
   @keyframes spin{to{transform:rotate(360deg)}}
   .avatar-holo .pic{
     position:relative;width:100%;height:100%;border-radius:50%;
-    background:#0d1025;overflow:hidden;
-    box-shadow:inset 0 0 40px rgba(0,255,200,.08);
+    background:#f5e6b8;overflow:hidden;
+    box-shadow:inset 0 0 40px rgba(10,22,40,.08);
   }
   .avatar-holo .pic img{width:100%;height:100%;object-fit:cover}
   .avatar-holo .pic::after{
     content:"";position:absolute;inset:0;border-radius:50%;
-    background:linear-gradient(135deg,rgba(255,255,255,.15) 0%,transparent 50%,rgba(0,255,200,.1) 100%);
+    background:linear-gradient(135deg,rgba(255,255,255,.2) 0%,transparent 50%,rgba(10,22,40,.06) 100%);
     pointer-events:none;
   }
 
   .holo-title{
     font-size:28px;font-weight:900;line-height:1.45;margin-bottom:10px;
-    background:linear-gradient(135deg,#fff 0%,#00ffc8 25%,#c084fc 50%,#ffd700 75%,#fff 100%);
-    background-size:200% auto;
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-    animation:holoText 5s linear infinite,fadeUp .9s .2s ease both;
+    color:var(--navy);
+    text-shadow:0 2px 12px rgba(255,248,220,.5);
+    animation:fadeUp .9s .2s ease both;
   }
-  @keyframes holoText{to{background-position:200% center}}
   .hero .spec{
     font-size:14px;color:var(--muted);line-height:1.8;max-width:340px;margin:0 auto 8px;
     animation:fadeUp .9s .3s ease both;
   }
   .hero .en{
     font-size:10px;letter-spacing:3px;text-transform:uppercase;
-    background:linear-gradient(90deg,#667eea,#00ffc8,#ff00aa);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    color:var(--navy-soft);
     animation:fadeUp .9s .35s ease both;
   }
   @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
@@ -135,18 +136,18 @@
     position:relative;border-radius:26px;padding:24px 22px;
     background:var(--panel);backdrop-filter:blur(28px);
     border:1px solid var(--line);
-    box-shadow:0 20px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+    box-shadow:0 20px 50px rgba(10,22,40,.12), inset 0 1px 0 rgba(255,255,255,.6);
     animation:fadeUp .8s ease both;
   }
   .lux-section::before{
-    content:"";position:absolute;top:0;right:22px;left:22px;height:1px;
-    background:linear-gradient(90deg,transparent,var(--gold),transparent);
-    opacity:.55;
+    content:"";position:absolute;top:0;right:22px;left:22px;height:2px;
+    background:linear-gradient(90deg,transparent,var(--navy),transparent);
+    opacity:.45;
   }
   .lux-section.featured{
-    background:linear-gradient(160deg,rgba(18,14,8,.92),rgba(10,12,28,.92));
-    border-color:rgba(212,184,106,.22);
-    box-shadow:0 24px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(212,184,106,.08) inset;
+    background:linear-gradient(160deg,rgba(255,252,240,.95),rgba(245,230,184,.9));
+    border-color:rgba(10,22,40,.22);
+    box-shadow:0 24px 60px rgba(10,22,40,.14), 0 0 0 1px rgba(10,22,40,.06) inset;
   }
   .lux-section:nth-child(1){animation-delay:.42s}
   .lux-section:nth-child(2){animation-delay:.55s}
@@ -156,85 +157,84 @@
   .sec-tag{
     display:inline-block;font-family:"Tajawal",sans-serif;
     font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
-    color:var(--gold);padding:5px 14px;border-radius:999px;
-    background:var(--gold-dim);border:1px solid rgba(212,184,106,.25);
+    color:var(--navy);padding:5px 14px;border-radius:999px;
+    background:rgba(10,22,40,.08);border:1px solid rgba(10,22,40,.2);
     margin-bottom:10px;
   }
   .sec-head h2{
-    font-size:20px;font-weight:900;color:#fff;line-height:1.5;margin-bottom:6px;
+    font-size:20px;font-weight:900;color:var(--navy);line-height:1.5;margin-bottom:6px;
   }
-  .sec-head p{font-size:13px;color:var(--muted);line-height:1.75}
+  .sec-head p{font-size:13px;color:var(--navy-mid);line-height:1.75}
   .sec-line{
     width:48px;height:2px;margin:12px auto 0;border-radius:2px;
-    background:linear-gradient(90deg,transparent,var(--gold-light),transparent);
+    background:linear-gradient(90deg,transparent,var(--navy),transparent);
   }
 
   .clinic-tag{
     display:inline-flex;align-items:center;gap:6px;margin-top:14px;
     padding:7px 16px;border-radius:999px;font-size:12px;font-weight:700;
-    color:var(--gold-light);background:rgba(212,184,106,.1);
-    border:1px solid rgba(212,184,106,.2);
+    color:var(--navy);background:rgba(10,22,40,.08);
+    border:1px solid rgba(10,22,40,.2);
     animation:fadeUp .9s .4s ease both;
   }
-  .clinic-tag::before{content:"◆";font-size:8px;color:var(--gold)}
+  .clinic-tag::before{content:"◆";font-size:8px;color:var(--navy)}
 
   .bio-intro{
-    position:relative;z-index:1;font-size:14px;line-height:2;color:#c8d3ea;
+    position:relative;z-index:1;font-size:14px;line-height:2;color:var(--navy-mid);
     padding:18px 20px;border-radius:18px;text-align:center;
-    background:linear-gradient(135deg,rgba(212,184,106,.06),rgba(255,255,255,.02));
-    border:1px solid rgba(212,184,106,.12);margin-bottom:18px;
+    background:rgba(10,22,40,.04);
+    border:1px solid rgba(10,22,40,.12);margin-bottom:18px;
   }
   .sub-label{
     position:relative;z-index:1;text-align:center;font-size:11px;font-weight:800;
-    letter-spacing:1.5px;color:var(--gold);margin-bottom:12px;
+    letter-spacing:1.5px;color:var(--navy);margin-bottom:12px;
   }
 
   .services{display:flex;flex-direction:column;gap:8px;position:relative;z-index:1}
   .svc{
     display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:16px;
-    background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);
+    background:rgba(10,22,40,.04);border:1px solid rgba(10,22,40,.1);
     transition:transform .2s,border-color .2s,background .2s;
   }
   .svc::before{
     content:"";width:7px;height:7px;border-radius:50%;flex-shrink:0;
-    background:linear-gradient(135deg,var(--gold),var(--gold-light));
-    box-shadow:0 0 10px rgba(212,184,106,.45);
+    background:var(--navy);
+    box-shadow:0 0 8px rgba(10,22,40,.25);
   }
-  .svc:hover{transform:translateX(-4px);border-color:rgba(212,184,106,.25);background:rgba(212,184,106,.05)}
-  .svc .st{font-size:13px;font-weight:700;color:#e8edf8;line-height:1.6;text-align:right;flex:1}
+  .svc:hover{transform:translateX(-4px);border-color:rgba(10,22,40,.25);background:rgba(10,22,40,.07)}
+  .svc .st{font-size:13px;font-weight:700;color:var(--navy);line-height:1.6;text-align:right;flex:1}
 
   .contact-block{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px}
   .contact-clinic{
     text-align:center;padding:16px;border-radius:18px;
-    background:rgba(212,184,106,.07);border:1px solid rgba(212,184,106,.15);
+    background:rgba(10,22,40,.06);border:1px solid rgba(10,22,40,.15);
   }
-  .contact-clinic h3{font-size:15px;font-weight:900;color:var(--gold-light);margin-bottom:4px}
-  .contact-clinic p{font-size:12px;color:var(--muted)}
+  .contact-clinic h3{font-size:15px;font-weight:900;color:var(--navy);margin-bottom:4px}
+  .contact-clinic p{font-size:12px;color:var(--navy-mid)}
 
   #booking{display:flex;flex-direction:column;gap:12px}
 
   .phone-card{
     position:relative;z-index:1;text-align:center;padding:20px 16px;
-    border-radius:20px;background:rgba(0,0,0,.28);
-    border:1px solid rgba(212,184,106,.2);
+    border-radius:20px;background:rgba(10,22,40,.05);
+    border:1px solid rgba(10,22,40,.18);
   }
   .phone-label{
-    display:block;font-size:12px;font-weight:700;color:var(--muted);
+    display:block;font-size:12px;font-weight:700;color:var(--navy-mid);
     margin-bottom:10px;letter-spacing:.5px;
   }
   .phone-number{
     display:block;text-decoration:none;font-size:26px;font-weight:900;
-    letter-spacing:2px;color:var(--gold-light);direction:ltr;
+    letter-spacing:2px;color:var(--navy);direction:ltr;
     font-family:"Tajawal","Cairo",sans-serif;
-    text-shadow:0 0 24px rgba(212,184,106,.25);
     transition:color .2s;
   }
-  .phone-number:active{color:#fff}
+  .phone-number:active{color:var(--navy-soft)}
 
   .address{
-    position:relative;z-index:1;font-size:14px;line-height:1.9;color:#c8d3ea;
+    position:relative;z-index:1;font-size:14px;line-height:1.9;color:var(--navy-mid);
     padding:16px 18px;border-radius:16px;text-align:center;
-    background:rgba(0,0,0,.22);border:1px dashed rgba(212,184,106,.22);
+    background:rgba(10,22,40,.04);border:1px dashed rgba(10,22,40,.2);
   }
   .maps{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1}
   .mbtn{
@@ -255,7 +255,7 @@
   .soc{
     width:72px;height:72px;border-radius:50%;display:flex;align-items:center;
     justify-content:center;text-decoration:none;transition:transform .15s,box-shadow .2s;
-    border:2px solid rgba(255,255,255,.08);
+    border:2px solid rgba(10,22,40,.15);
   }
   .soc:active{transform:scale(.92)}
   .soc svg{width:34px;height:34px;fill:#fff}
@@ -269,17 +269,16 @@
   }
   .soc.pending{opacity:.45;filter:grayscale(.3);pointer-events:none}
   .social-hint{
-    position:relative;z-index:1;text-align:center;font-size:13px;color:var(--muted);
+    position:relative;z-index:1;text-align:center;font-size:13px;color:var(--navy-mid);
     line-height:1.8;padding:10px 12px 0;
   }
 
   .footer{
     text-align:center;padding:32px 18px 18px;font-size:11px;
-    color:rgba(154,168,196,.45);line-height:1.9;
+    color:rgba(10,22,40,.55);line-height:1.9;
   }
   .footer .glow{
-    background:linear-gradient(90deg,var(--gold-light),#c084fc,#00ffc8);
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    color:var(--navy);
     font-weight:800;
   }
 </style>
@@ -406,9 +405,9 @@ const CONFIG = {
 };
 const AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><defs>' +
-  '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff00aa"/>' +
-  '<stop offset="50%" stop-color="#00ffc8"/><stop offset="100%" stop-color="#667eea"/></linearGradient></defs>' +
-  '<rect width="120" height="120" fill="#0d1025"/><circle cx="60" cy="46" r="24" fill="url(#g)" opacity=".85"/>' +
+  '<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a1628"/>' +
+  '<stop offset="50%" stop-color="#1a2744"/><stop offset="100%" stop-color="#2c4a7c"/></linearGradient></defs>' +
+  '<rect width="120" height="120" fill="#f5e6b8"/><circle cx="60" cy="46" r="24" fill="url(#g)" opacity=".85"/>' +
   '<path d="M22 108c0-22 17-34 38-34s38 12 38 34" fill="url(#g)" opacity=".6"/></svg>');
 const telHref = s => "tel:" + String(s).replace(/[^0-9+]/g, "");
 function formatPhoneDisplay(num) {
